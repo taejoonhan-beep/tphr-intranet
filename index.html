@@ -407,12 +407,21 @@
 
     if (ALLOWED_DOMAINS.includes(emailDomain)) {
       sessionStorage.setItem('tphr_user', JSON.stringify({ name: payload.name, email: payload.email }));
+      sessionStorage.setItem('tphr_id_token', response.credential);
       document.getElementById('login-gate').style.display = 'none';
     } else {
       document.getElementById('login-error').style.display = 'block';
       google.accounts.id.disableAutoSelect();
     }
   }
+
+  // 앞으로 Sheets API(Apps Script)를 호출할 때 이 함수를 쓰면 로그인 토큰이 자동으로 같이 전송됨
+  // 예: fetchWithAuth(SHEET_API_URL).then(data => ...)
+  window.fetchWithAuth = function (baseUrl) {
+    const token = sessionStorage.getItem('tphr_id_token');
+    const url = baseUrl + (baseUrl.includes('?') ? '&' : '?') + 'idToken=' + encodeURIComponent(token || '');
+    return fetch(url).then(res => res.json());
+  };
 
   window.addEventListener('load', function () {
     if (sessionStorage.getItem('tphr_user')) {
