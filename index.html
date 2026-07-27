@@ -123,8 +123,15 @@
 
   footer{padding:14px 40px 22px;font-size:10.5px;color:var(--muted);border-top:1px solid var(--hairline);}
 </style>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
+<div id="login-gate" style="position:fixed;inset:0;z-index:9999;background:#FBFAF7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;font-family:'Pretendard Variable','Pretendard',sans-serif;">
+  <div style="font-family:'Noto Serif KR',serif;font-size:22px;font-weight:700;color:#1B1D29;">TPHR Inside</div>
+  <div style="font-size:14px;color:#8A8D94;">회사 계정으로 로그인해주세요</div>
+  <div id="g_id_signin"></div>
+  <div id="login-error" style="display:none;color:#c0392b;font-size:13px;">회사 이메일 계정으로만 로그인할 수 있습니다.</div>
+</div>
 
   <header class="masthead">
     <div class="wordmark">TPHR <span>Inside</span></div>
@@ -383,5 +390,46 @@
     });
   </script>
 
+<script>
+  const ALLOWED_DOMAINS = ["turningpoint-hr.com", "braincommerce.com"];
+  const GOOGLE_CLIENT_ID = "806810720428-ulngf7osara2dsjk6rkoocvji8fq3n91.apps.googleusercontent.com";
+
+  function decodeJwt(token) {
+    const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(decodeURIComponent(atob(base64).split('').map(c =>
+      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+    ).join('')));
+  }
+
+  function handleCredentialResponse(response) {
+    const payload = decodeJwt(response.credential);
+    const emailDomain = payload.email ? payload.email.split('@')[1] : '';
+
+    if (ALLOWED_DOMAINS.includes(emailDomain)) {
+      sessionStorage.setItem('tphr_user', JSON.stringify({ name: payload.name, email: payload.email }));
+      document.getElementById('login-gate').style.display = 'none';
+    } else {
+      document.getElementById('login-error').style.display = 'block';
+      google.accounts.id.disableAutoSelect();
+    }
+  }
+
+  window.addEventListener('load', function () {
+    if (sessionStorage.getItem('tphr_user')) {
+      document.getElementById('login-gate').style.display = 'none';
+      return;
+    }
+
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: handleCredentialResponse
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById('g_id_signin'),
+      { theme: 'outline', size: 'large', text: 'signin_with' }
+    );
+  });
+</script>
 </body>
 </html>
