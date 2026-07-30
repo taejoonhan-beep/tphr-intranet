@@ -35,21 +35,42 @@
   .serif{font-family:'Noto Serif KR',serif;}
 
   .masthead{
-    display:flex;align-items:baseline;justify-content:space-between;
-    padding:8px 40px 14px;border-bottom:1px solid var(--ink);
+    display:flex;align-items:flex-end;justify-content:space-between;
+    padding:10px 40px 14px;border-bottom:1px solid var(--ink);
   }
+  .masthead-left{display:flex;flex-direction:column;gap:4px;}
   .wordmark{font-size:22px;font-weight:700;letter-spacing:-0.5px;}
   .wordmark span{color:var(--emerald);}
+  .date-line{font-family:'Noto Serif KR',serif;font-size:14px;font-weight:600;color:var(--ink-soft);letter-spacing:-0.2px;}
   nav{display:flex;gap:28px;align-items:baseline;}
-  nav a{font-size:12.5px;font-weight:600;letter-spacing:0.06em;color:var(--ink-soft);padding-bottom:4px;border-bottom:2px solid transparent;}
+  nav a{font-size:12.5px;font-weight:600;letter-spacing:0.06em;color:var(--ink-soft);padding-bottom:4px;border-bottom:2px solid transparent;cursor:pointer;}
   nav a.active{color:var(--ink);border-bottom-color:var(--emerald);}
   .masthead-right{display:flex;align-items:center;gap:16px;}
   .contact-btn{font-size:12px;font-weight:700;color:#fff;background:var(--ink);padding:7px 13px;border-radius:6px;transition:background .15s;}
   .contact-btn:hover{background:var(--emerald);}
-  .user-chip{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-soft);}
-  .avatar{width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:600;}
+  .user-chip{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-soft);background:var(--card);border:1px solid var(--hairline);padding:5px 10px 5px 6px;border-radius:20px;cursor:pointer;transition:border-color .15s,background .15s;font-weight:600;}
+  .user-chip:hover{border-color:var(--emerald);background:var(--emerald-soft);}
+  .avatar{width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:600;flex:none;}
 
-  .eyebrow-row{padding:10px 40px 0;font-size:11.5px;color:var(--muted);letter-spacing:0.04em;display:flex;justify-content:space-between;}
+  .eyebrow-row{padding:9px 40px 0;font-size:11px;color:var(--muted);letter-spacing:0.02em;display:flex;justify-content:space-between;align-items:center;}
+  .last-updated-badge{font-size:10.5px;font-weight:600;color:var(--emerald);background:var(--emerald-soft);padding:3px 9px;border-radius:20px;}
+
+  /* modal */
+  .modal-overlay{position:fixed;inset:0;background:rgba(27,29,41,0.45);z-index:900;display:none;align-items:center;justify-content:center;padding:40px;}
+  .modal-overlay.open{display:flex;}
+  .modal-box{background:var(--card);border-radius:12px;max-width:720px;width:100%;max-height:80vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(27,29,41,0.25);}
+  .modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--hairline);}
+  .modal-head h2{font-family:'Noto Serif KR',serif;font-size:18px;font-weight:700;}
+  .modal-close{font-size:20px;color:var(--muted);cursor:pointer;line-height:1;background:none;border:none;}
+  .modal-close:hover{color:var(--ink);}
+  .modal-body{padding:8px 24px 24px;overflow-y:auto;}
+  .directory-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  .directory-table th{text-align:left;font-size:10.5px;font-weight:700;letter-spacing:0.06em;color:var(--muted);text-transform:uppercase;padding:10px 8px;border-bottom:1px solid var(--hairline);position:sticky;top:0;background:var(--card);}
+  .directory-table td{padding:10px 8px;border-bottom:1px solid var(--hairline);color:var(--ink-soft);}
+  .directory-table td.name-cell{color:var(--ink);font-weight:600;}
+  .directory-table tr:last-child td{border-bottom:none;}
+  .directory-team-badge{font-size:10px;font-weight:700;color:var(--ink-soft);background:var(--bg);border:1px solid var(--hairline);padding:2px 7px;border-radius:4px;white-space:nowrap;}
+  .modal-placeholder{padding:30px 4px;color:var(--muted);font-size:13px;text-align:center;}
 
   .hero{
     margin:14px 40px 0;border:1px solid var(--hairline);border-radius:10px;background:var(--card);
@@ -125,7 +146,7 @@
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
-<body>
+<body id="top">
 <div id="login-gate" style="position:fixed;inset:0;z-index:9999;background:#FBFAF7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;font-family:'Pretendard Variable','Pretendard',sans-serif;">
   <div style="font-family:'Noto Serif KR',serif;font-size:22px;font-weight:700;color:#1B1D29;">TPHR Inside</div>
   <div style="font-size:14px;color:#8A8D94;">회사 계정으로 로그인해주세요</div>
@@ -134,25 +155,28 @@
 </div>
 
   <header class="masthead">
-    <div class="wordmark">TPHR <span>Inside</span></div>
+    <div class="masthead-left">
+      <div class="wordmark">TPHR <span>Inside</span></div>
+      <div class="date-line" id="today-date"></div>
+    </div>
     <nav>
-      <a href="#" class="active">공지사항</a>
-      <a href="#">팀 현황</a>
-      <a href="#">업무 링크</a>
-      <a href="#">대시보드</a>
+      <a href="#top" class="active" id="nav-home">HOME</a>
+      <a id="nav-team">팀 현황</a>
+      <a href="#work-links" id="nav-links">업무 링크</a>
+      <a href="#dashboard-links" id="nav-dashboard">대시보드</a>
     </nav>
     <div class="masthead-right">
       <a class="contact-btn" href="mailto:genie@braincommerce.com">BizOps팀에 문의하기</a>
-      <div class="user-chip">
-        <div class="avatar">태</div>
-        태준 · BizOps
-      </div>
+      <button class="user-chip" id="user-chip-btn">
+        <div class="avatar" id="user-avatar">태</div>
+        <span id="user-chip-label">태준 · BizOps</span>
+      </button>
     </div>
   </header>
 
   <div class="eyebrow-row">
-    <span>2026년 6월 23일 (화) · 이번 주 BizOps 요약</span>
-    <span>마지막 업데이트 5분 전</span>
+    <span>이번 주 BizOps 요약</span>
+    <span class="last-updated-badge" id="last-updated">마지막 업데이트 확인 중…</span>
   </div>
 
   <section class="hero">
@@ -193,12 +217,16 @@
 
   <div class="main-grid">
 
-    <div class="links-card">
+    <div class="links-card" id="work-links">
       <div class="link-group-label">정보·위키</div>
       <div class="link-list">
         <a class="link-item" href="https://app.notion.com/p/2aa1e6db4089803c8776cd008383e9aa" target="_blank" rel="noopener">
           <span class="emoji">📘</span>
           <span class="txt">업무가이드<span class="sub">노션 위키</span></span>
+        </a>
+        <a class="link-item" href="https://greemja.com/" target="_blank" rel="noopener">
+          <span class="emoji">🌓</span>
+          <span class="txt">그림자<span class="sub">그림자 홈페이지</span></span>
         </a>
       </div>
 
@@ -218,7 +246,7 @@
         </a>
       </div>
 
-      <div class="link-group-label">대시보드</div>
+      <div class="link-group-label" id="dashboard-links">대시보드</div>
       <div class="link-list">
         <a class="link-item dashboard" href="#" id="link-dashboard">
           <span class="emoji">📊</span>
@@ -323,52 +351,54 @@
     <div class="team-card">
       <div class="subsection-title">재직 인원 · 조직 구성</div>
       <div class="headcount-line">
-        <div class="value serif">38<span style="font-size:13px;">명</span></div>
-        <a class="seating-link" href="#" id="link-seating">좌석배치도 보기 →</a>
+        <div class="value serif" id="headcount-value">–<span style="font-size:13px;">명</span></div>
+        <a class="seating-link" href="https://docs.google.com/spreadsheets/d/1Vm493ahKCqydbcT902RTC7bWZicz2ZIINzIVdkedrHc/edit?gid=1997455346#gid=1997455346" id="link-seating" target="_blank" rel="noopener">좌석배치도 보기 →</a>
       </div>
 
-      <div class="org-bar">
-        <span style="width:36.8%;background:var(--emerald);"></span>
-        <span style="width:26.3%;background:var(--emerald-light);"></span>
-        <span style="width:21.1%;background:var(--amber);"></span>
-        <span style="width:15.8%;background:var(--ink-soft);"></span>
-      </div>
-      <div class="org-legend">
-        <div class="org-legend-item"><span class="dot" style="background:var(--emerald);"></span><span class="org-name">TPHR</span><span class="org-count">14</span></div>
-        <div class="org-legend-item"><span class="dot" style="background:var(--emerald-light);"></span><span class="org-name">BCHR</span><span class="org-count">10</span></div>
-        <div class="org-legend-item"><span class="dot" style="background:var(--amber);"></span><span class="org-name">장애인채용사업팀</span><span class="org-count">8</span></div>
-        <div class="org-legend-item"><span class="dot" style="background:var(--ink-soft);"></span><span class="org-name">BizOps</span><span class="org-count">6</span></div>
-      </div>
+      <div class="org-bar" id="org-bar"></div>
+      <div class="org-legend" id="org-legend"></div>
+      <a class="seating-link" href="javascript:void(0)" id="team-detail-link" style="display:inline-block;margin-top:12px;">팀 현황 상세보기 →</a>
 
       <div class="subsection-title">이번 달 신규 입사자</div>
-      <div class="people-row">
-        <div class="pavatar">이</div>
-        <div>
-          <div class="pname">이OO</div>
-          <div class="prole">헤드헌팅팀 · 컨설턴트</div>
-        </div>
+      <div id="new-hires-list">
+        <div class="modal-placeholder" style="padding:10px 0;font-size:12px;">불러오는 중…</div>
       </div>
-      <div class="people-row">
-        <div class="pavatar">박</div>
-        <div>
-          <div class="pname">박OO</div>
-          <div class="prole">BizOps · 사회복지학과 채용</div>
-        </div>
-      </div>
+    </div>
+  </div>
 
-      <div class="subsection-title">이번 달 생일</div>
-      <div class="people-row">
-        <div class="pavatar">김</div>
-        <div>
-          <div class="pname">김OO</div>
-          <div class="prole">6월 26일 · Shadow Partners</div>
-        </div>
+  <div class="modal-overlay" id="team-modal-overlay">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h2>팀 현황</h2>
+        <button class="modal-close" id="team-modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <table class="directory-table" id="directory-table">
+          <thead>
+            <tr><th>팀</th><th>이름</th><th>이메일</th><th>연락처</th></tr>
+          </thead>
+          <tbody id="directory-tbody">
+            <tr><td colspan="4"><div class="modal-placeholder">불러오는 중…</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="mypage-modal-overlay">
+    <div class="modal-box" style="max-width:420px;">
+      <div class="modal-head">
+        <h2>마이페이지</h2>
+        <button class="modal-close" id="mypage-modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-placeholder">마이페이지는 준비 중이에요. 곧 채워질 예정이에요.</div>
       </div>
     </div>
   </div>
 
   <footer>
-    TPHR Inside — 내부 직원 전용 페이지입니다. 데이터는 더미 값이며 실 연동 전입니다.
+    TPHR Inside — 내부 직원 전용 페이지입니다.
   </footer>
 
   <script>
@@ -426,6 +456,8 @@
   window.addEventListener('load', function () {
     if (sessionStorage.getItem('tphr_user')) {
       document.getElementById('login-gate').style.display = 'none';
+      loadDashboardData();
+      applyUserChip();
       return;
     }
 
@@ -439,6 +471,139 @@
       { theme: 'outline', size: 'large', text: 'signin_with' }
     );
   });
+
+  // 로그인 성공 직후에도 데이터 로딩 + 유저칩 갱신
+  const _origHandleCredentialResponse = handleCredentialResponse;
+  handleCredentialResponse = function (response) {
+    _origHandleCredentialResponse(response);
+    if (sessionStorage.getItem('tphr_user')) {
+      loadDashboardData();
+      applyUserChip();
+    }
+  };
+</script>
+
+<script>
+  const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbywG6TYQtWbS9S5MFkuMjin3HIRC1Z01vDqodwC4KMcH6r770BR4IjJt3UDM-FvUXyJfA/exec";
+  const ORG_COLORS = ['var(--emerald)', 'var(--emerald-light)', 'var(--amber)', 'var(--ink-soft)', '#7C8CA6', '#B99C6B'];
+  const WEEKDAYS_KO = ['일','월','화','수','목','금','토'];
+
+  function applyUserChip() {
+    try {
+      const user = JSON.parse(sessionStorage.getItem('tphr_user') || 'null');
+      if (!user || !user.name) return;
+      document.getElementById('user-chip-label').textContent = user.name;
+      document.getElementById('user-avatar').textContent = user.name.charAt(0);
+    } catch (e) {}
+  }
+
+  function setTodayDate() {
+    const d = new Date();
+    const text = d.getFullYear() + '년 ' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 (' + WEEKDAYS_KO[d.getDay()] + ')';
+    document.getElementById('today-date').textContent = text;
+  }
+
+  function setLastUpdated(isoString) {
+    const el = document.getElementById('last-updated');
+    if (!isoString) { el.textContent = '마지막 업데이트 정보 없음'; return; }
+    const diffMin = Math.max(0, Math.round((Date.now() - new Date(isoString).getTime()) / 60000));
+    let label;
+    if (diffMin < 1) label = '방금 전';
+    else if (diffMin < 60) label = diffMin + '분 전';
+    else label = Math.round(diffMin / 60) + '시간 전';
+    el.textContent = '마지막 업데이트 ' + label;
+  }
+
+  function renderOrgSection(data) {
+    document.getElementById('headcount-value').innerHTML = data.totalActive + '<span style="font-size:13px;">명</span>';
+
+    const barEl = document.getElementById('org-bar');
+    const legendEl = document.getElementById('org-legend');
+    barEl.innerHTML = '';
+    legendEl.innerHTML = '';
+
+    (data.orgs || []).forEach((org, i) => {
+      const color = ORG_COLORS[i % ORG_COLORS.length];
+      const span = document.createElement('span');
+      span.style.width = org.pct + '%';
+      span.style.background = color;
+      barEl.appendChild(span);
+
+      const item = document.createElement('div');
+      item.className = 'org-legend-item';
+      item.innerHTML = '<span class="dot" style="background:' + color + ';"></span>' +
+        '<span class="org-name">' + org.name + '</span>' +
+        '<span class="org-count">' + org.count + '</span>';
+      legendEl.appendChild(item);
+    });
+  }
+
+  function renderNewHires(data) {
+    const listEl = document.getElementById('new-hires-list');
+    const hires = data.newHires || [];
+    if (hires.length === 0) {
+      listEl.innerHTML = '<div class="modal-placeholder" style="padding:10px 0;font-size:12px;">이번 달 신규 입사자가 없어요.</div>';
+      return;
+    }
+    listEl.innerHTML = hires.map(h =>
+      '<div class="people-row">' +
+        '<div class="pavatar">' + h.name.charAt(0) + '</div>' +
+        '<div><div class="pname">' + h.name + '</div>' +
+        '<div class="prole">' + (h.org || '') + (h.team ? ' · ' + h.team : '') + '</div></div>' +
+      '</div>'
+    ).join('');
+  }
+
+  function renderDirectory(data) {
+    const tbody = document.getElementById('directory-tbody');
+    const dir = data.directory || [];
+    if (dir.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4"><div class="modal-placeholder">표시할 인원 정보가 없어요.</div></td></tr>';
+      return;
+    }
+    const sorted = [...dir].sort((a, b) => (a.team || '').localeCompare(b.team || '') || (a.name || '').localeCompare(b.name || ''));
+    tbody.innerHTML = sorted.map(p =>
+      '<tr>' +
+        '<td><span class="directory-team-badge">' + (p.team || p.org || '-') + '</span></td>' +
+        '<td class="name-cell">' + (p.name || '-') + '</td>' +
+        '<td>' + (p.email || '-') + '</td>' +
+        '<td>' + (p.phone || '-') + '</td>' +
+      '</tr>'
+    ).join('');
+  }
+
+  function loadDashboardData() {
+    window.fetchWithAuth(SHEET_API_URL).then(data => {
+      if (data.error) {
+        setLastUpdated(null);
+        return;
+      }
+      renderOrgSection(data);
+      renderNewHires(data);
+      renderDirectory(data);
+      setLastUpdated(data.updatedAt);
+    }).catch(() => {
+      setLastUpdated(null);
+    });
+  }
+
+  function openModal(id) { document.getElementById(id).classList.add('open'); }
+  function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+  document.getElementById('nav-team').addEventListener('click', (e) => { e.preventDefault(); openModal('team-modal-overlay'); });
+  document.getElementById('team-detail-link').addEventListener('click', () => openModal('team-modal-overlay'));
+  document.getElementById('team-modal-close').addEventListener('click', () => closeModal('team-modal-overlay'));
+  document.getElementById('team-modal-overlay').addEventListener('click', (e) => { if (e.target.id === 'team-modal-overlay') closeModal('team-modal-overlay'); });
+
+  document.getElementById('user-chip-btn').addEventListener('click', () => openModal('mypage-modal-overlay'));
+  document.getElementById('mypage-modal-close').addEventListener('click', () => closeModal('mypage-modal-overlay'));
+  document.getElementById('mypage-modal-overlay').addEventListener('click', (e) => { if (e.target.id === 'mypage-modal-overlay') closeModal('mypage-modal-overlay'); });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { closeModal('team-modal-overlay'); closeModal('mypage-modal-overlay'); }
+  });
+
+  setTodayDate();
 </script>
 </body>
 </html>
