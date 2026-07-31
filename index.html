@@ -127,6 +127,17 @@
   .empty-page{padding:90px 40px;text-align:center;color:var(--muted);font-size:13.5px;}
   .team-page{padding:26px 40px 40px;max-width:900px;}
   .team-page p.hint{font-size:12.5px;color:var(--muted);margin-bottom:18px;}
+  .team-page-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+
+  .org-tree, .org-tree ul{list-style:none;margin:0;padding:0;}
+  .org-tree{margin:6px 0 34px;}
+  .org-tree ul{margin-left:20px;padding-left:20px;border-left:1px solid var(--hairline);margin-top:2px;}
+  .org-tree ul li{position:relative;padding:6px 0;}
+  .org-tree ul li::before{content:'';position:absolute;top:19px;left:-20px;width:20px;height:1px;background:var(--hairline);}
+  .org-tree > li{padding:2px 0;}
+  .org-node-name{font-weight:700;font-size:13px;color:var(--ink);}
+  .org-node-root{font-family:'Noto Serif KR',serif;font-size:16px;font-weight:700;}
+  .org-node-role{font-size:11px;color:var(--muted);margin-left:7px;font-weight:500;}
 
   .headcount-line{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;}
   .headcount-line .value{font-size:26px;font-weight:700;font-family:'Noto Serif KR',serif;}
@@ -134,8 +145,8 @@
 
   .org-bar{display:flex;height:10px;border-radius:6px;overflow:hidden;background:var(--hairline);margin-bottom:14px;}
   .org-bar span{height:100%;}
-  .org-legend{display:grid;grid-template-columns:1fr 1fr;gap:10px 8px;}
-  .org-legend-item{display:flex;align-items:center;gap:7px;font-size:12px;border:none;background:none;padding:2px 0;font-family:inherit;text-align:left;width:100%;cursor:pointer;border-radius:4px;transition:background .12s;}
+  .org-legend{display:flex;flex-direction:column;gap:2px;}
+  .org-legend-item{display:flex;align-items:center;gap:8px;font-size:12.5px;border:none;background:none;padding:5px 4px;font-family:inherit;text-align:left;width:100%;cursor:pointer;border-radius:4px;transition:background .12s;}
   .org-legend-item:hover{background:var(--emerald-soft);}
   .org-legend-item .dot{width:8px;height:8px;border-radius:50%;flex:none;}
   .org-legend-item .org-name{color:var(--ink-soft);font-weight:500;flex:1;transition:color .12s;}
@@ -274,12 +285,11 @@
       <div class="subsection-title">재직 인원 · 조직 구성</div>
       <div class="headcount-line">
         <div class="value serif" id="headcount-value">–<span style="font-size:13px;">명</span></div>
-        <a class="seating-link" href="https://docs.google.com/spreadsheets/d/1Vm493ahKCqydbcT902RTC7bWZicz2ZIINzIVdkedrHc/edit?gid=1997455346#gid=1997455346" id="link-seating" target="_blank" rel="noopener">좌석배치도 보기 →</a>
       </div>
 
       <div class="org-bar" id="org-bar"></div>
       <div class="org-legend" id="org-legend"></div>
-      <a class="seating-link" href="javascript:void(0)" id="team-detail-link" style="display:inline-block;margin-top:12px;">피플 보기 →</a>
+      <a class="seating-link" href="javascript:void(0)" id="team-detail-link" style="display:inline-block;margin-top:12px;">상세보기 →</a>
 
       <div class="subsection-title">이번 달 신규 입사자</div>
       <div id="new-hires-list">
@@ -290,8 +300,49 @@
   </div>
 
   <div id="view-team" class="view-page team-page">
-    <div class="section-title">피플</div>
-    <p class="hint">상세 조직도와 좌석배치도는 곧 추가될 예정이에요. 지금은 팀 구성원 목록을 확인할 수 있어요.</p>
+    <div class="team-page-head">
+      <div class="section-title" style="flex:1;">피플</div>
+      <a class="seating-link" href="https://docs.google.com/spreadsheets/d/1Vm493ahKCqydbcT902RTC7bWZicz2ZIINzIVdkedrHc/edit?gid=1997455346#gid=1997455346" target="_blank" rel="noopener" style="margin-left:16px;white-space:nowrap;">좌석배치도 보기 →</a>
+    </div>
+    <p class="hint">조직도와 팀 구성원 목록을 확인할 수 있어요.</p>
+
+    <div class="subsection-title">조직도</div>
+    <ul class="org-tree">
+      <li>
+        <span class="org-node-name org-node-root">터닝포인트HR</span>
+        <ul>
+          <li>
+            <span class="org-node-name">TPHR</span><span class="org-node-role">오세보 대표</span>
+            <ul>
+              <li><span class="org-node-name">베스트</span><span class="org-node-role">김근욱 팀장</span></li>
+              <li><span class="org-node-name">스피드</span><span class="org-node-role">김인수 팀장</span></li>
+              <li><span class="org-node-name">에이스</span><span class="org-node-role">최영재 팀장</span></li>
+              <li><span class="org-node-name">파리</span><span class="org-node-role">최원석 팀장</span></li>
+              <li><span class="org-node-name">시드니</span><span class="org-node-role">김기민 팀장</span></li>
+              <li><span class="org-node-name">런던</span><span class="org-node-role">이명규 팀장</span></li>
+              <li><span class="org-node-name">하와이</span><span class="org-node-role">신준호 팀장</span></li>
+            </ul>
+          </li>
+          <li>
+            <span class="org-node-name">BCHR</span><span class="org-node-role">박지영 팀장</span>
+            <ul>
+              <li><span class="org-node-name">영업</span></li>
+              <li>
+                <span class="org-node-name">리서처</span>
+                <ul>
+                  <li><span class="org-node-name">유닛</span><span class="org-node-role">유닛장 김연주</span></li>
+                  <li><span class="org-node-name">유닛</span><span class="org-node-role">유닛장 김다빈</span></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li><span class="org-node-name">BizOps</span><span class="org-node-role">김상훈 팀장</span></li>
+          <li><span class="org-node-name">그림자</span><span class="org-node-role">김상훈 팀장</span></li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="subsection-title">구성원 목록</div>
     <table class="directory-table" id="directory-table">
       <thead>
         <tr><th>팀</th><th>이름</th><th>이메일</th><th>연락처</th></tr>
