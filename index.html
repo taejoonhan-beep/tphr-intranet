@@ -128,7 +128,7 @@
   .view-page{display:none;}
   .view-page.active-view{display:block;}
   .empty-page{padding:90px 40px;text-align:center;color:var(--muted);font-size:13.5px;}
-  .team-page{max-width:960px;margin:0 auto;padding:26px 40px 48px;}
+  .team-page{max-width:1600px;margin:0 auto;padding:26px 48px 48px;}
   .team-page p.hint{font-size:12.5px;color:var(--muted);margin-bottom:0;text-align:center;}
   .team-page-head{text-align:center;margin-bottom:6px;}
 
@@ -158,10 +158,14 @@
   .oc-children > .oc-node:first-child::after{left:50%;}
   .oc-children > .oc-node:last-child::after{right:50%;}
 
-  .oc-trunk-extra{position:relative;height:40px;display:flex;justify-content:center;}
-  .oc-trunk-extra::before{content:'';position:absolute;top:0;left:50%;width:1px;height:100%;background:var(--hairline);}
+  .oc-leaf-wrap{display:flex;flex-direction:column;align-items:center;padding-top:26px;position:relative;}
+  .oc-leaf-wrap::before{content:'';position:absolute;top:0;left:50%;width:1px;height:26px;background:var(--hairline);}
+  .oc-leaf-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:20px 14px;max-width:640px;position:relative;padding-top:1px;}
+  .oc-leaf-grid::before{content:'';position:absolute;top:0;left:6%;right:6%;height:1px;background:var(--hairline);}
+  .oc-leaf-grid .oc-node{position:relative;padding-top:20px;}
+  .oc-leaf-grid .oc-node::before{content:'';position:absolute;top:0;left:50%;width:1px;height:20px;background:var(--hairline);}
 
-  .oc-staff-inline{position:absolute;top:50%;left:50%;transform:translateY(-50%);display:flex;align-items:center;}
+  .oc-staff-inline{position:absolute;top:6px;left:50%;display:flex;align-items:center;z-index:1;}
   .oc-staff-inline::before{content:'';position:absolute;top:50%;left:0;width:32px;height:0;border-top:1px dashed var(--muted);transform:translateY(-50%);}
   .oc-staff-inline .oc-card{margin-left:36px;}
   .oc-staff-card{border-style:dashed;}
@@ -653,6 +657,12 @@
   }
 
   function ocChildrenHtml(nodes) {
+    const allLeaf = nodes.every(n => n.children.length === 0);
+    if (allLeaf && nodes.length > 4) {
+      return '<div class="oc-leaf-wrap"><div class="oc-leaf-grid">' +
+        nodes.map(n => '<div class="oc-node">' + ocCardHtml(n, false) + '</div>').join('') +
+      '</div></div>';
+    }
     return '<div class="oc-children">' +
       nodes.map(n =>
         '<div class="oc-node">' + ocCardHtml(n, false) +
@@ -678,19 +688,19 @@
     const mainNodes = root.children.filter(n => n.name !== 'BizOps');
 
     let html = '<div class="oc-node">' + ocCardHtml(root, true);
-
-    if (staffNodes.length) {
-      html += '<div class="oc-trunk-extra">';
+    if (mainNodes.length) {
+      let childrenHtml = ocChildrenHtml(mainNodes);
+      let staffHtml = '';
       staffNodes.forEach(s => {
-        html += '<div class="oc-staff-inline"><div class="oc-card oc-leaf oc-staff-card">' +
+        staffHtml += '<div class="oc-staff-inline"><div class="oc-card oc-leaf oc-staff-card">' +
           '<div class="oc-name">' + s.name + '</div>' +
           (s.person ? '<div class="oc-role">' + s.person + '</div>' : '') +
         '</div></div>';
       });
-      html += '</div>';
+      // ocChildrenHtml이 만들어내는 최상위 children 컨테이너 바로 안쪽에 곁가지를 삽입
+      childrenHtml = childrenHtml.replace('<div class="oc-children">', '<div class="oc-children">' + staffHtml);
+      html += childrenHtml;
     }
-
-    if (mainNodes.length) html += ocChildrenHtml(mainNodes);
     html += '</div>';
 
     container.innerHTML = html;
