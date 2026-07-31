@@ -160,13 +160,15 @@
 
   .oc-leaf-wrap{display:flex;flex-direction:column;align-items:center;padding-top:26px;position:relative;}
   .oc-leaf-wrap::before{content:'';position:absolute;top:0;left:50%;width:1px;height:26px;background:var(--hairline);}
-  .oc-leaf-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 10px;max-width:600px;border-top:1px solid var(--hairline);padding-top:14px;}
+  .oc-leaf-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:20px 14px;max-width:640px;position:relative;padding-top:1px;}
+  .oc-leaf-grid::before{content:'';position:absolute;top:0;left:6%;right:6%;height:1px;background:var(--hairline);}
+  .oc-leaf-grid .oc-node{position:relative;padding-top:20px;}
+  .oc-leaf-grid .oc-node::before{content:'';position:absolute;top:0;left:50%;width:1px;height:20px;background:var(--hairline);}
 
-  .oc-root-wrap{position:relative;display:inline-block;}
-  .oc-staff{position:absolute;top:50%;left:100%;transform:translateY(-50%);margin-left:40px;}
-  .oc-staff::before{content:'';position:absolute;top:50%;left:-40px;width:40px;height:0;border-top:1px dashed var(--muted);}
+  .oc-staff-inline{position:absolute;top:6px;left:50%;display:flex;align-items:center;z-index:1;}
+  .oc-staff-inline::before{content:'';position:absolute;top:50%;left:0;width:32px;height:0;border-top:1px dashed var(--muted);transform:translateY(-50%);}
+  .oc-staff-inline .oc-card{margin-left:36px;}
   .oc-staff-card{border-style:dashed;}
-  .oc-staff-tag{font-size:9px;color:var(--muted);margin-top:3px;white-space:nowrap;}
 
   .people-center{display:flex;justify-content:center;}
   .directory-table{max-width:760px;}
@@ -646,7 +648,7 @@
   }
 
   function ocCardHtml(node, isRoot) {
-    const subtitle = [node.person, node.role].filter(Boolean).join(' ');
+    const subtitle = node.person || '';
     const leafClass = (!isRoot && node.children.length === 0) ? ' oc-leaf' : '';
     return '<div class="oc-card' + (isRoot ? ' oc-root' : leafClass) + '">' +
       '<div class="oc-name">' + node.name + '</div>' +
@@ -658,7 +660,7 @@
     const allLeaf = nodes.every(n => n.children.length === 0);
     if (allLeaf && nodes.length > 4) {
       return '<div class="oc-leaf-wrap"><div class="oc-leaf-grid">' +
-        nodes.map(n => ocCardHtml(n, false)).join('') +
+        nodes.map(n => '<div class="oc-node">' + ocCardHtml(n, false) + '</div>').join('') +
       '</div></div>';
     }
     return '<div class="oc-children">' +
@@ -685,17 +687,20 @@
     const staffNodes = root.children.filter(n => n.name === 'BizOps');
     const mainNodes = root.children.filter(n => n.name !== 'BizOps');
 
-    let html = '<div class="oc-node"><div class="oc-root-wrap">' + ocCardHtml(root, true);
-    staffNodes.forEach(s => {
-      const subtitle = [s.person, s.role].filter(Boolean).join(' ');
-      html += '<div class="oc-staff"><div class="oc-card oc-leaf oc-staff-card">' +
-        '<div class="oc-name">' + s.name + '</div>' +
-        (subtitle ? '<div class="oc-role">' + subtitle + '</div>' : '') +
-        '<div class="oc-staff-tag">대표 직속 · 전사 매니지먼트</div>' +
-      '</div></div>';
-    });
-    html += '</div>';
-    if (mainNodes.length) html += ocChildrenHtml(mainNodes);
+    let html = '<div class="oc-node">' + ocCardHtml(root, true);
+    if (mainNodes.length) {
+      let childrenHtml = ocChildrenHtml(mainNodes);
+      let staffHtml = '';
+      staffNodes.forEach(s => {
+        staffHtml += '<div class="oc-staff-inline"><div class="oc-card oc-leaf oc-staff-card">' +
+          '<div class="oc-name">' + s.name + '</div>' +
+          (s.person ? '<div class="oc-role">' + s.person + '</div>' : '') +
+        '</div></div>';
+      });
+      // ocChildrenHtml이 만들어내는 최상위 children 컨테이너 바로 안쪽에 곁가지를 삽입
+      childrenHtml = childrenHtml.replace('<div class="oc-children">', '<div class="oc-children">' + staffHtml);
+      html += childrenHtml;
+    }
     html += '</div>';
 
     container.innerHTML = html;
