@@ -62,7 +62,10 @@
   .modal-close:hover{color:var(--ink);}
   .modal-body{padding:8px 24px 24px;overflow-y:auto;}
   .directory-table{width:100%;border-collapse:collapse;font-size:12.5px;}
-  .directory-table th{text-align:left;font-size:10.5px;font-weight:700;letter-spacing:0.06em;color:var(--muted);text-transform:uppercase;padding:10px 8px;border-bottom:1px solid var(--hairline);position:sticky;top:0;background:var(--card);}
+  .directory-table th{text-align:left;font-size:10.5px;font-weight:700;letter-spacing:0.06em;color:var(--muted);text-transform:uppercase;padding:10px 8px;border-bottom:1px solid var(--hairline);position:sticky;top:0;background:var(--card);cursor:pointer;user-select:none;white-space:nowrap;}
+  .directory-table th:hover{color:var(--ink);}
+  .directory-table th .sort-arrow{margin-left:3px;opacity:0.5;font-size:9px;}
+  .directory-table th.sort-active .sort-arrow{opacity:1;color:var(--emerald);}
   .directory-table td{padding:10px 8px;border-bottom:1px solid var(--hairline);color:var(--ink-soft);}
   .directory-table td.name-cell{color:var(--ink);font-weight:600;}
   .directory-table tr:last-child td{border-bottom:none;}
@@ -138,7 +141,7 @@
 
   /* 카드형 조직도 */
   .oc-scroll{overflow-x:auto;padding-bottom:10px;}
-  .oc-tree{display:flex;justify-content:center;min-width:max-content;margin:0 auto;}
+  .oc-tree{display:flex;justify-content:center;margin:0 auto;}
   .oc-node{display:flex;flex-direction:column;align-items:center;text-align:center;}
   .oc-card{background:var(--card);border:1px solid var(--hairline);border-radius:8px;padding:10px 16px;min-width:88px;box-shadow:0 1px 2px rgba(27,29,41,0.04);}
   .oc-card .oc-name{font-weight:700;font-size:12.5px;color:var(--ink);white-space:nowrap;}
@@ -154,6 +157,16 @@
   .oc-children > .oc-node:only-child::after{display:none;}
   .oc-children > .oc-node:first-child::after{left:50%;}
   .oc-children > .oc-node:last-child::after{right:50%;}
+
+  .oc-leaf-wrap{display:flex;flex-direction:column;align-items:center;padding-top:26px;position:relative;}
+  .oc-leaf-wrap::before{content:'';position:absolute;top:0;left:50%;width:1px;height:26px;background:var(--hairline);}
+  .oc-leaf-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 10px;max-width:600px;border-top:1px solid var(--hairline);padding-top:14px;}
+
+  .oc-root-wrap{position:relative;display:inline-block;}
+  .oc-staff{position:absolute;top:50%;left:100%;transform:translateY(-50%);margin-left:40px;}
+  .oc-staff::before{content:'';position:absolute;top:50%;left:-40px;width:40px;height:0;border-top:1px dashed var(--muted);}
+  .oc-staff-card{border-style:dashed;}
+  .oc-staff-tag{font-size:9px;color:var(--muted);margin-top:3px;white-space:nowrap;}
 
   .people-center{display:flex;justify-content:center;}
   .directory-table{max-width:760px;}
@@ -322,11 +335,6 @@
   </div>
 
   <div id="view-team" class="view-page team-page">
-    <div class="team-page-head">
-      <div class="section-title">피플</div>
-      <p class="hint">조직도, 구성원 목록, 좌석배치도를 확인할 수 있어요.</p>
-    </div>
-
     <div class="people-subnav">
       <button class="people-tab active" data-sub="people-orgchart">조직도</button>
       <button class="people-tab" data-sub="people-directory">구성원 목록</button>
@@ -335,51 +343,8 @@
 
     <div id="people-orgchart" class="people-subview active-sub">
       <div class="oc-scroll">
-        <div class="oc-tree">
-          <div class="oc-node">
-            <div class="oc-card oc-root">
-              <div class="oc-name">터닝포인트HR</div>
-              <div class="oc-role">대표 이주형</div>
-            </div>
-            <div class="oc-children">
-
-              <div class="oc-node">
-                <div class="oc-card"><div class="oc-name">TPHR</div><div class="oc-role">오세보 대표</div></div>
-                <div class="oc-children">
-                  <div class="oc-node"><div class="oc-card oc-leaf"><div class="oc-name">베스트</div><div class="oc-role">김근욱 팀장</div></div></div>
-                  <div class="oc-node"><div class="oc-card oc-leaf"><div class="oc-name">스피드</div><div class="oc-role">김인수 팀장</div></div></div>
-                  <div class="oc-node"><div class="oc-card oc-leaf"><div class="oc-name">에이스</div><div class="oc-role">최영재 팀장</div></div></div>
-                  <div class="oc-node"><div class="oc-card oc-leaf"><div class="oc-name">파리</div><div class="oc-role">최원석 팀장</div></div></div>
-                  <div class="oc-node"><div class="oc-card oc-leaf"><div class="oc-name">시드니</div><div class="oc-role">김기민 팀장</div></div></div>
-                  <div class="oc-node"><div class="oc-card oc-leaf"><div class="oc-name">런던</div><div class="oc-role">이명규 팀장</div></div></div>
-                  <div class="oc-node"><div class="oc-card oc-leaf"><div class="oc-name">하와이</div><div class="oc-role">신준호 팀장</div></div></div>
-                </div>
-              </div>
-
-              <div class="oc-node">
-                <div class="oc-card"><div class="oc-name">BCHR</div><div class="oc-role">박지영 팀장</div></div>
-                <div class="oc-children">
-                  <div class="oc-node"><div class="oc-card oc-leaf"><div class="oc-name">영업</div></div></div>
-                  <div class="oc-node">
-                    <div class="oc-card"><div class="oc-name">리서처</div></div>
-                    <div class="oc-children">
-                      <div class="oc-node"><div class="oc-card oc-leaf"><div class="oc-name">유닛</div><div class="oc-role">유닛장 김연주</div></div></div>
-                      <div class="oc-node"><div class="oc-card oc-leaf"><div class="oc-name">유닛</div><div class="oc-role">유닛장 김다빈</div></div></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="oc-node">
-                <div class="oc-card oc-leaf"><div class="oc-name">BizOps</div><div class="oc-role">김상훈 팀장</div></div>
-              </div>
-
-              <div class="oc-node">
-                <div class="oc-card oc-leaf"><div class="oc-name">그림자</div><div class="oc-role">김상훈 팀장</div></div>
-              </div>
-
-            </div>
-          </div>
+        <div id="orgchart-container" class="oc-tree">
+          <div class="modal-placeholder">조직도를 불러오는 중…</div>
         </div>
       </div>
     </div>
@@ -388,10 +353,16 @@
       <div class="people-center">
         <table class="directory-table" id="directory-table">
           <thead>
-            <tr><th>팀</th><th>이름</th><th>이메일</th><th>연락처</th></tr>
+            <tr>
+              <th data-key="org">조직<span class="sort-arrow">↕</span></th>
+              <th data-key="team" class="sort-active">팀<span class="sort-arrow">↑</span></th>
+              <th data-key="name">이름<span class="sort-arrow">↕</span></th>
+              <th data-key="email">이메일<span class="sort-arrow">↕</span></th>
+              <th data-key="phone">연락처<span class="sort-arrow">↕</span></th>
+            </tr>
           </thead>
           <tbody id="directory-tbody">
-            <tr><td colspan="4"><div class="modal-placeholder">불러오는 중…</div></td></tr>
+            <tr><td colspan="5"><div class="modal-placeholder">불러오는 중…</div></td></tr>
           </tbody>
         </table>
       </div>
@@ -612,22 +583,122 @@
     ).join('');
   }
 
+  let directorySortKey = 'team';
+  let directorySortDir = 1;
+
   function renderDirectory(data) {
     const tbody = document.getElementById('directory-tbody');
     const dir = data.directory || [];
     if (dir.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="4"><div class="modal-placeholder">표시할 인원 정보가 없어요.</div></td></tr>';
+      tbody.innerHTML = '<tr><td colspan="5"><div class="modal-placeholder">표시할 인원 정보가 없어요.</div></td></tr>';
       return;
     }
-    const sorted = [...dir].sort((a, b) => (a.team || '').localeCompare(b.team || '') || (a.name || '').localeCompare(b.name || ''));
+    const getVal = (p, key) => {
+      if (key === 'org') return displayOrgName(p.org || '');
+      return p[key] || '';
+    };
+    const sorted = [...dir].sort((a, b) => {
+      const va = getVal(a, directorySortKey);
+      const vb = getVal(b, directorySortKey);
+      const cmp = String(va).localeCompare(String(vb), 'ko');
+      if (cmp !== 0) return cmp * directorySortDir;
+      return String(a.name || '').localeCompare(String(b.name || ''), 'ko');
+    });
     tbody.innerHTML = sorted.map(p =>
       '<tr>' +
-        '<td><span class="directory-team-badge">' + (p.team || displayOrgName(p.org) || '-') + '</span></td>' +
+        '<td><span class="directory-team-badge">' + (displayOrgName(p.org) || '-') + '</span></td>' +
+        '<td><span class="directory-team-badge">' + (p.team || '-') + '</span></td>' +
         '<td class="name-cell">' + (p.name || '-') + '</td>' +
         '<td>' + (p.email || '-') + '</td>' +
         '<td>' + (p.phone || '-') + '</td>' +
       '</tr>'
     ).join('');
+  }
+
+  document.querySelectorAll('#directory-table th[data-key]').forEach(th => {
+    th.addEventListener('click', () => {
+      const key = th.dataset.key;
+      if (directorySortKey === key) {
+        directorySortDir *= -1;
+      } else {
+        directorySortKey = key;
+        directorySortDir = 1;
+      }
+      document.querySelectorAll('#directory-table th').forEach(t => t.classList.remove('sort-active'));
+      th.classList.add('sort-active');
+      th.querySelector('.sort-arrow').textContent = directorySortDir === 1 ? '↑' : '↓';
+      if (latestData) renderDirectory(latestData);
+    });
+  });
+
+  function buildOrgTree(flat) {
+    const byId = {};
+    flat.forEach(n => { byId[n.id] = Object.assign({}, n, { children: [] }); });
+    let root = null;
+    flat.forEach(n => {
+      if (!n.parentId) { root = byId[n.id]; }
+      else if (byId[n.parentId]) { byId[n.parentId].children.push(byId[n.id]); }
+    });
+    Object.keys(byId).forEach(id => {
+      byId[id].children.sort((a, b) => (a.order || 0) - (b.order || 0));
+    });
+    return root;
+  }
+
+  function ocCardHtml(node, isRoot) {
+    const subtitle = [node.person, node.role].filter(Boolean).join(' ');
+    const leafClass = (!isRoot && node.children.length === 0) ? ' oc-leaf' : '';
+    return '<div class="oc-card' + (isRoot ? ' oc-root' : leafClass) + '">' +
+      '<div class="oc-name">' + node.name + '</div>' +
+      (subtitle ? '<div class="oc-role">' + subtitle + '</div>' : '') +
+    '</div>';
+  }
+
+  function ocChildrenHtml(nodes) {
+    const allLeaf = nodes.every(n => n.children.length === 0);
+    if (allLeaf && nodes.length > 4) {
+      return '<div class="oc-leaf-wrap"><div class="oc-leaf-grid">' +
+        nodes.map(n => ocCardHtml(n, false)).join('') +
+      '</div></div>';
+    }
+    return '<div class="oc-children">' +
+      nodes.map(n =>
+        '<div class="oc-node">' + ocCardHtml(n, false) +
+        (n.children.length ? ocChildrenHtml(n.children) : '') +
+        '</div>'
+      ).join('') +
+    '</div>';
+  }
+
+  function renderOrgChart(flat) {
+    const container = document.getElementById('orgchart-container');
+    if (!flat || flat.length === 0) {
+      container.innerHTML = '<div class="modal-placeholder">조직도 데이터가 없어요.</div>';
+      return;
+    }
+    const root = buildOrgTree(flat);
+    if (!root) {
+      container.innerHTML = '<div class="modal-placeholder">조직도 데이터가 없어요.</div>';
+      return;
+    }
+
+    const staffNodes = root.children.filter(n => n.name === 'BizOps');
+    const mainNodes = root.children.filter(n => n.name !== 'BizOps');
+
+    let html = '<div class="oc-node"><div class="oc-root-wrap">' + ocCardHtml(root, true);
+    staffNodes.forEach(s => {
+      const subtitle = [s.person, s.role].filter(Boolean).join(' ');
+      html += '<div class="oc-staff"><div class="oc-card oc-leaf oc-staff-card">' +
+        '<div class="oc-name">' + s.name + '</div>' +
+        (subtitle ? '<div class="oc-role">' + subtitle + '</div>' : '') +
+        '<div class="oc-staff-tag">대표 직속 · 전사 매니지먼트</div>' +
+      '</div></div>';
+    });
+    html += '</div>';
+    if (mainNodes.length) html += ocChildrenHtml(mainNodes);
+    html += '</div>';
+
+    container.innerHTML = html;
   }
 
   function openOrgQuickView(rawOrgName, displayName) {
@@ -660,6 +731,7 @@
       renderNewHires(data);
       renderDirectory(data);
       renderNotices();
+      renderOrgChart(data.orgChart);
     }).catch(err => {
       console.warn('TPHR Inside fetch failed:', err);
     });
