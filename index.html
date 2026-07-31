@@ -122,16 +122,24 @@
   .team-card{background:var(--card);border:1px solid var(--hairline);border-radius:10px;padding:20px;}
   .subsection-title{font-size:10.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
   .subsection-title:not(:first-child){margin-top:20px;padding-top:18px;border-top:1px solid var(--hairline);}
+  .view-page{display:none;}
+  .view-page.active-view{display:block;}
+  .empty-page{padding:90px 40px;text-align:center;color:var(--muted);font-size:13.5px;}
+  .team-page{padding:26px 40px 40px;max-width:900px;}
+  .team-page p.hint{font-size:12.5px;color:var(--muted);margin-bottom:18px;}
+
   .headcount-line{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;}
   .headcount-line .value{font-size:26px;font-weight:700;font-family:'Noto Serif KR',serif;}
-  .headcount-line .seating-link{font-size:11.5px;font-weight:600;color:var(--emerald);border-bottom:1px solid var(--emerald);padding-bottom:1px;}
+  .seating-link{font-size:11.5px;font-weight:600;color:var(--emerald);border-bottom:1px solid var(--emerald);padding-bottom:1px;}
 
   .org-bar{display:flex;height:10px;border-radius:6px;overflow:hidden;background:var(--hairline);margin-bottom:14px;}
   .org-bar span{height:100%;}
   .org-legend{display:grid;grid-template-columns:1fr 1fr;gap:10px 8px;}
-  .org-legend-item{display:flex;align-items:center;gap:7px;font-size:12px;}
+  .org-legend-item{display:flex;align-items:center;gap:7px;font-size:12px;border:none;background:none;padding:2px 0;font-family:inherit;text-align:left;width:100%;cursor:pointer;border-radius:4px;transition:background .12s;}
+  .org-legend-item:hover{background:var(--emerald-soft);}
   .org-legend-item .dot{width:8px;height:8px;border-radius:50%;flex:none;}
-  .org-legend-item .org-name{color:var(--ink-soft);font-weight:500;flex:1;}
+  .org-legend-item .org-name{color:var(--ink-soft);font-weight:500;flex:1;transition:color .12s;}
+  .org-legend-item:hover .org-name{color:var(--emerald);}
   .org-legend-item .org-count{font-weight:700;font-variant-numeric:tabular-nums;}
 
   .people-row{display:flex;gap:9px;align-items:center;padding:7px 0;}
@@ -153,10 +161,10 @@
 
   <header class="masthead">
     <nav>
-      <a href="#top" class="active" id="nav-home">HOME</a>
-      <a id="nav-team">팀 현황</a>
-      <a href="#work-links" id="nav-links">업무 링크</a>
-      <a href="#dashboard-links" id="nav-dashboard">대시보드</a>
+      <a class="active" id="nav-home" data-view="view-home">HOME</a>
+      <a id="nav-team" data-view="view-team">피플</a>
+      <a id="nav-links" data-view="view-links">업무 링크</a>
+      <a id="nav-dashboard" data-view="view-dashboard">대시보드</a>
     </nav>
     <div class="wordmark">TPHR <span>Inside</span></div>
     <div class="masthead-right">
@@ -169,6 +177,7 @@
     </div>
   </header>
 
+  <div id="view-home" class="view-page active-view">
   <section class="hero">
     <div class="hero-stat">
       <div class="ring">
@@ -347,7 +356,7 @@
 
       <div class="org-bar" id="org-bar"></div>
       <div class="org-legend" id="org-legend"></div>
-      <a class="seating-link" href="javascript:void(0)" id="team-detail-link" style="display:inline-block;margin-top:12px;">팀 현황 상세보기 →</a>
+      <a class="seating-link" href="javascript:void(0)" id="team-detail-link" style="display:inline-block;margin-top:12px;">피플 보기 →</a>
 
       <div class="subsection-title">이번 달 신규 입사자</div>
       <div id="new-hires-list">
@@ -355,22 +364,32 @@
       </div>
     </div>
   </div>
+  </div>
 
-  <div class="modal-overlay" id="team-modal-overlay">
-    <div class="modal-box">
+  <div id="view-team" class="view-page team-page">
+    <div class="section-title">피플</div>
+    <p class="hint">상세 조직도와 좌석배치도는 곧 추가될 예정이에요. 지금은 팀 구성원 목록을 확인할 수 있어요.</p>
+    <table class="directory-table" id="directory-table">
+      <thead>
+        <tr><th>팀</th><th>이름</th><th>이메일</th><th>연락처</th></tr>
+      </thead>
+      <tbody id="directory-tbody">
+        <tr><td colspan="4"><div class="modal-placeholder">불러오는 중…</div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="view-links" class="view-page empty-page">업무 링크 페이지는 준비 중이에요.</div>
+  <div id="view-dashboard" class="view-page empty-page">대시보드 페이지는 준비 중이에요.</div>
+
+  <div class="modal-overlay" id="org-quick-modal-overlay">
+    <div class="modal-box" style="max-width:380px;">
       <div class="modal-head">
-        <h2>팀 현황</h2>
-        <button class="modal-close" id="team-modal-close">&times;</button>
+        <h2 id="org-quick-title">팀</h2>
+        <button class="modal-close" id="org-quick-modal-close">&times;</button>
       </div>
-      <div class="modal-body">
-        <table class="directory-table" id="directory-table">
-          <thead>
-            <tr><th>팀</th><th>이름</th><th>이메일</th><th>연락처</th></tr>
-          </thead>
-          <tbody id="directory-tbody">
-            <tr><td colspan="4"><div class="modal-placeholder">불러오는 중…</div></td></tr>
-          </tbody>
-        </table>
+      <div class="modal-body" id="org-quick-body">
+        <div class="modal-placeholder">불러오는 중…</div>
       </div>
     </div>
   </div>
@@ -477,6 +496,15 @@
   const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbywG6TYQtWbS9S5MFkuMjin3HIRC1Z01vDqodwC4KMcH6r770BR4IjJt3UDM-FvUXyJfA/exec";
   const ORG_COLORS = ['var(--emerald)', 'var(--emerald-light)', 'var(--amber)', 'var(--ink-soft)', '#7C8CA6', '#B99C6B'];
   const WEEKDAYS_KO = ['일','월','화','수','목','금','토'];
+  const ORG_NAME_MAP = {
+    '터닝포인트HR': 'TPHR',
+    '잡플래닛 리서치팀': 'BCHR',
+    '장애인채용': '그림자 파트너스',
+    '장애인채용팀': '그림자 파트너스'
+  };
+  function displayOrgName(raw) { return ORG_NAME_MAP[raw] || raw; }
+
+  let latestData = null;
 
   function applyUserChip() {
     try {
@@ -508,11 +536,14 @@
       span.style.background = color;
       barEl.appendChild(span);
 
-      const item = document.createElement('div');
+      const displayName = displayOrgName(org.name);
+      const item = document.createElement('button');
+      item.type = 'button';
       item.className = 'org-legend-item';
       item.innerHTML = '<span class="dot" style="background:' + color + ';"></span>' +
-        '<span class="org-name">' + org.name + '</span>' +
+        '<span class="org-name">' + displayName + '</span>' +
         '<span class="org-count">' + org.count + '</span>';
+      item.addEventListener('click', () => openOrgQuickView(org.name, displayName));
       legendEl.appendChild(item);
     });
   }
@@ -528,7 +559,7 @@
       '<div class="people-row">' +
         '<div class="pavatar">' + h.name.charAt(0) + '</div>' +
         '<div><div class="pname">' + h.name + '</div>' +
-        '<div class="prole">' + (h.org || '') + (h.team ? ' · ' + h.team : '') + '</div></div>' +
+        '<div class="prole">' + displayOrgName(h.org || '') + (h.team ? ' · ' + h.team : '') + '</div></div>' +
       '</div>'
     ).join('');
   }
@@ -543,12 +574,31 @@
     const sorted = [...dir].sort((a, b) => (a.team || '').localeCompare(b.team || '') || (a.name || '').localeCompare(b.name || ''));
     tbody.innerHTML = sorted.map(p =>
       '<tr>' +
-        '<td><span class="directory-team-badge">' + (p.team || p.org || '-') + '</span></td>' +
+        '<td><span class="directory-team-badge">' + (p.team || displayOrgName(p.org) || '-') + '</span></td>' +
         '<td class="name-cell">' + (p.name || '-') + '</td>' +
         '<td>' + (p.email || '-') + '</td>' +
         '<td>' + (p.phone || '-') + '</td>' +
       '</tr>'
     ).join('');
+  }
+
+  function openOrgQuickView(rawOrgName, displayName) {
+    document.getElementById('org-quick-title').textContent = displayName;
+    const bodyEl = document.getElementById('org-quick-body');
+    const members = ((latestData && latestData.directory) || []).filter(p => p.org === rawOrgName);
+    if (members.length === 0) {
+      bodyEl.innerHTML = '<div class="modal-placeholder">구성원 정보가 없어요.</div>';
+    } else {
+      const sorted = [...members].sort((a, b) => (a.team || '').localeCompare(b.team || '') || (a.name || '').localeCompare(b.name || ''));
+      bodyEl.innerHTML = sorted.map(p =>
+        '<div class="people-row">' +
+          '<div class="pavatar">' + (p.name ? p.name.charAt(0) : '-') + '</div>' +
+          '<div><div class="pname">' + (p.name || '-') + '</div>' +
+          '<div class="prole">' + (p.team || '') + '</div></div>' +
+        '</div>'
+      ).join('');
+    }
+    openModal('org-quick-modal-overlay');
   }
 
   function loadDashboardData() {
@@ -557,6 +607,7 @@
         console.warn('TPHR Inside data load error:', data.message);
         return;
       }
+      latestData = data;
       renderOrgSection(data);
       renderNewHires(data);
       renderDirectory(data);
@@ -568,17 +619,33 @@
   function openModal(id) { document.getElementById(id).classList.add('open'); }
   function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-  document.getElementById('nav-team').addEventListener('click', (e) => { e.preventDefault(); openModal('team-modal-overlay'); });
-  document.getElementById('team-detail-link').addEventListener('click', () => openModal('team-modal-overlay'));
-  document.getElementById('team-modal-close').addEventListener('click', () => closeModal('team-modal-overlay'));
-  document.getElementById('team-modal-overlay').addEventListener('click', (e) => { if (e.target.id === 'team-modal-overlay') closeModal('team-modal-overlay'); });
+  function showView(viewId) {
+    document.querySelectorAll('.view-page').forEach(v => v.classList.remove('active-view'));
+    document.getElementById(viewId).classList.add('active-view');
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+    const navLink = document.querySelector('nav a[data-view="' + viewId + '"]');
+    if (navLink) navLink.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+
+  document.querySelectorAll('nav a[data-view]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      showView(a.dataset.view);
+    });
+  });
+
+  document.getElementById('team-detail-link').addEventListener('click', () => showView('view-team'));
+
+  document.getElementById('org-quick-modal-close').addEventListener('click', () => closeModal('org-quick-modal-overlay'));
+  document.getElementById('org-quick-modal-overlay').addEventListener('click', (e) => { if (e.target.id === 'org-quick-modal-overlay') closeModal('org-quick-modal-overlay'); });
 
   document.getElementById('user-chip-btn').addEventListener('click', () => openModal('mypage-modal-overlay'));
   document.getElementById('mypage-modal-close').addEventListener('click', () => closeModal('mypage-modal-overlay'));
   document.getElementById('mypage-modal-overlay').addEventListener('click', (e) => { if (e.target.id === 'mypage-modal-overlay') closeModal('mypage-modal-overlay'); });
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') { closeModal('team-modal-overlay'); closeModal('mypage-modal-overlay'); }
+    if (e.key === 'Escape') { closeModal('org-quick-modal-overlay'); closeModal('mypage-modal-overlay'); }
   });
 
   setTodayDate();
