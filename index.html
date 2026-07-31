@@ -125,19 +125,41 @@
   .view-page{display:none;}
   .view-page.active-view{display:block;}
   .empty-page{padding:90px 40px;text-align:center;color:var(--muted);font-size:13.5px;}
-  .team-page{padding:26px 40px 40px;max-width:900px;}
-  .team-page p.hint{font-size:12.5px;color:var(--muted);margin-bottom:18px;}
-  .team-page-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+  .team-page{max-width:960px;margin:0 auto;padding:26px 40px 48px;}
+  .team-page p.hint{font-size:12.5px;color:var(--muted);margin-bottom:0;text-align:center;}
+  .team-page-head{text-align:center;margin-bottom:6px;}
 
-  .org-tree, .org-tree ul{list-style:none;margin:0;padding:0;}
-  .org-tree{margin:6px 0 34px;}
-  .org-tree ul{margin-left:20px;padding-left:20px;border-left:1px solid var(--hairline);margin-top:2px;}
-  .org-tree ul li{position:relative;padding:6px 0;}
-  .org-tree ul li::before{content:'';position:absolute;top:19px;left:-20px;width:20px;height:1px;background:var(--hairline);}
-  .org-tree > li{padding:2px 0;}
-  .org-node-name{font-weight:700;font-size:13px;color:var(--ink);}
-  .org-node-root{font-family:'Noto Serif KR',serif;font-size:16px;font-weight:700;}
-  .org-node-role{font-size:11px;color:var(--muted);margin-left:7px;font-weight:500;}
+  .people-subnav{display:flex;justify-content:center;gap:10px;margin:20px 0 30px;}
+  .people-tab{font-size:12px;font-weight:700;color:var(--ink-soft);background:var(--card);border:1px solid var(--hairline);padding:8px 18px;border-radius:20px;cursor:pointer;transition:all .15s;}
+  .people-tab:hover{border-color:var(--emerald);}
+  .people-tab.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .people-subview{display:none;}
+  .people-subview.active-sub{display:block;}
+
+  /* 카드형 조직도 */
+  .oc-scroll{overflow-x:auto;padding-bottom:10px;}
+  .oc-tree{display:flex;justify-content:center;min-width:max-content;margin:0 auto;}
+  .oc-node{display:flex;flex-direction:column;align-items:center;text-align:center;}
+  .oc-card{background:var(--card);border:1px solid var(--hairline);border-radius:8px;padding:10px 16px;min-width:88px;box-shadow:0 1px 2px rgba(27,29,41,0.04);}
+  .oc-card .oc-name{font-weight:700;font-size:12.5px;color:var(--ink);white-space:nowrap;}
+  .oc-card .oc-role{font-size:10.5px;color:var(--muted);margin-top:2px;white-space:nowrap;}
+  .oc-card.oc-root{padding:14px 22px;}
+  .oc-card.oc-root .oc-name{font-family:'Noto Serif KR',serif;font-size:16px;}
+  .oc-card.oc-leaf{border-style:dashed;}
+  .oc-children{display:flex;padding-top:26px;position:relative;}
+  .oc-children::before{content:'';position:absolute;top:0;left:50%;height:26px;width:1px;background:var(--hairline);}
+  .oc-children > .oc-node{padding:26px 12px 0;position:relative;}
+  .oc-children > .oc-node::before{content:'';position:absolute;top:0;left:50%;width:1px;height:26px;background:var(--hairline);}
+  .oc-children > .oc-node::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:var(--hairline);}
+  .oc-children > .oc-node:only-child::after{display:none;}
+  .oc-children > .oc-node:first-child::after{left:50%;}
+  .oc-children > .oc-node:last-child::after{right:50%;}
+
+  .people-center{display:flex;justify-content:center;}
+  .directory-table{max-width:760px;}
+  .seating-card{max-width:420px;margin:20px auto 0;text-align:center;border:1px solid var(--hairline);border-radius:10px;padding:32px 28px;background:var(--card);}
+  .seating-card .oc-name{display:block;font-size:14px;font-weight:700;margin-bottom:6px;}
+  .seating-card p{font-size:12px;color:var(--muted);margin-bottom:16px;}
 
   .headcount-line{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;}
   .headcount-line .value{font-size:26px;font-weight:700;font-family:'Noto Serif KR',serif;}
@@ -301,56 +323,87 @@
 
   <div id="view-team" class="view-page team-page">
     <div class="team-page-head">
-      <div class="section-title" style="flex:1;">피플</div>
-      <a class="seating-link" href="https://docs.google.com/spreadsheets/d/1Vm493ahKCqydbcT902RTC7bWZicz2ZIINzIVdkedrHc/edit?gid=1997455346#gid=1997455346" target="_blank" rel="noopener" style="margin-left:16px;white-space:nowrap;">좌석배치도 보기 →</a>
+      <div class="section-title">피플</div>
+      <p class="hint">조직도, 구성원 목록, 좌석배치도를 확인할 수 있어요.</p>
     </div>
-    <p class="hint">조직도와 팀 구성원 목록을 확인할 수 있어요.</p>
 
-    <div class="subsection-title">조직도</div>
-    <ul class="org-tree">
-      <li>
-        <span class="org-node-name org-node-root">터닝포인트HR</span>
-        <ul>
-          <li>
-            <span class="org-node-name">TPHR</span><span class="org-node-role">오세보 대표</span>
-            <ul>
-              <li><span class="org-node-name">베스트</span><span class="org-node-role">김근욱 팀장</span></li>
-              <li><span class="org-node-name">스피드</span><span class="org-node-role">김인수 팀장</span></li>
-              <li><span class="org-node-name">에이스</span><span class="org-node-role">최영재 팀장</span></li>
-              <li><span class="org-node-name">파리</span><span class="org-node-role">최원석 팀장</span></li>
-              <li><span class="org-node-name">시드니</span><span class="org-node-role">김기민 팀장</span></li>
-              <li><span class="org-node-name">런던</span><span class="org-node-role">이명규 팀장</span></li>
-              <li><span class="org-node-name">하와이</span><span class="org-node-role">신준호 팀장</span></li>
-            </ul>
-          </li>
-          <li>
-            <span class="org-node-name">BCHR</span><span class="org-node-role">박지영 팀장</span>
-            <ul>
-              <li><span class="org-node-name">영업</span></li>
-              <li>
-                <span class="org-node-name">리서처</span>
-                <ul>
-                  <li><span class="org-node-name">유닛</span><span class="org-node-role">유닛장 김연주</span></li>
-                  <li><span class="org-node-name">유닛</span><span class="org-node-role">유닛장 김다빈</span></li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li><span class="org-node-name">BizOps</span><span class="org-node-role">김상훈 팀장</span></li>
-          <li><span class="org-node-name">그림자</span><span class="org-node-role">김상훈 팀장</span></li>
-        </ul>
-      </li>
-    </ul>
+    <div class="people-subnav">
+      <button class="people-tab active" data-sub="people-orgchart">조직도</button>
+      <button class="people-tab" data-sub="people-directory">구성원 목록</button>
+      <button class="people-tab" data-sub="people-seating">좌석배치도</button>
+    </div>
 
-    <div class="subsection-title">구성원 목록</div>
-    <table class="directory-table" id="directory-table">
-      <thead>
-        <tr><th>팀</th><th>이름</th><th>이메일</th><th>연락처</th></tr>
-      </thead>
-      <tbody id="directory-tbody">
-        <tr><td colspan="4"><div class="modal-placeholder">불러오는 중…</div></td></tr>
-      </tbody>
-    </table>
+    <div id="people-orgchart" class="people-subview active-sub">
+      <div class="oc-scroll">
+        <div class="oc-tree">
+          <div class="oc-node">
+            <div class="oc-card oc-root">
+              <div class="oc-name">터닝포인트HR</div>
+              <div class="oc-role">대표 이주형</div>
+            </div>
+            <div class="oc-children">
+
+              <div class="oc-node">
+                <div class="oc-card"><div class="oc-name">TPHR</div><div class="oc-role">오세보 대표</div></div>
+                <div class="oc-children">
+                  <div class="oc-node"><div class="oc-card oc-leaf"><div class="oc-name">베스트</div><div class="oc-role">김근욱 팀장</div></div></div>
+                  <div class="oc-node"><div class="oc-card oc-leaf"><div class="oc-name">스피드</div><div class="oc-role">김인수 팀장</div></div></div>
+                  <div class="oc-node"><div class="oc-card oc-leaf"><div class="oc-name">에이스</div><div class="oc-role">최영재 팀장</div></div></div>
+                  <div class="oc-node"><div class="oc-card oc-leaf"><div class="oc-name">파리</div><div class="oc-role">최원석 팀장</div></div></div>
+                  <div class="oc-node"><div class="oc-card oc-leaf"><div class="oc-name">시드니</div><div class="oc-role">김기민 팀장</div></div></div>
+                  <div class="oc-node"><div class="oc-card oc-leaf"><div class="oc-name">런던</div><div class="oc-role">이명규 팀장</div></div></div>
+                  <div class="oc-node"><div class="oc-card oc-leaf"><div class="oc-name">하와이</div><div class="oc-role">신준호 팀장</div></div></div>
+                </div>
+              </div>
+
+              <div class="oc-node">
+                <div class="oc-card"><div class="oc-name">BCHR</div><div class="oc-role">박지영 팀장</div></div>
+                <div class="oc-children">
+                  <div class="oc-node"><div class="oc-card oc-leaf"><div class="oc-name">영업</div></div></div>
+                  <div class="oc-node">
+                    <div class="oc-card"><div class="oc-name">리서처</div></div>
+                    <div class="oc-children">
+                      <div class="oc-node"><div class="oc-card oc-leaf"><div class="oc-name">유닛</div><div class="oc-role">유닛장 김연주</div></div></div>
+                      <div class="oc-node"><div class="oc-card oc-leaf"><div class="oc-name">유닛</div><div class="oc-role">유닛장 김다빈</div></div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="oc-node">
+                <div class="oc-card oc-leaf"><div class="oc-name">BizOps</div><div class="oc-role">김상훈 팀장</div></div>
+              </div>
+
+              <div class="oc-node">
+                <div class="oc-card oc-leaf"><div class="oc-name">그림자</div><div class="oc-role">김상훈 팀장</div></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="people-directory" class="people-subview">
+      <div class="people-center">
+        <table class="directory-table" id="directory-table">
+          <thead>
+            <tr><th>팀</th><th>이름</th><th>이메일</th><th>연락처</th></tr>
+          </thead>
+          <tbody id="directory-tbody">
+            <tr><td colspan="4"><div class="modal-placeholder">불러오는 중…</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="people-seating" class="people-subview">
+      <div class="seating-card">
+        <span class="oc-name">좌석배치도</span>
+        <p>실시간 좌석 배치는 구글 시트에서 관리돼요.</p>
+        <a class="seating-link" href="https://docs.google.com/spreadsheets/d/1Vm493ahKCqydbcT902RTC7bWZicz2ZIINzIVdkedrHc/edit?gid=1997455346#gid=1997455346" target="_blank" rel="noopener">시트 열기 →</a>
+      </div>
+    </div>
   </div>
 
   <div id="view-links" class="view-page empty-page">업무 링크 페이지는 준비 중이에요.</div>
@@ -630,8 +683,21 @@
     document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
     const navLink = document.querySelector('nav a[data-view="' + viewId + '"]');
     if (navLink) navLink.classList.add('active');
+    if (viewId === 'view-team') showPeopleSub('people-orgchart');
     window.scrollTo({ top: 0, behavior: 'auto' });
   }
+
+  function showPeopleSub(subId) {
+    document.querySelectorAll('.people-subview').forEach(v => v.classList.remove('active-sub'));
+    document.getElementById(subId).classList.add('active-sub');
+    document.querySelectorAll('.people-tab').forEach(t => t.classList.remove('active'));
+    const tabBtn = document.querySelector('.people-tab[data-sub="' + subId + '"]');
+    if (tabBtn) tabBtn.classList.add('active');
+  }
+
+  document.querySelectorAll('.people-tab').forEach(t => {
+    t.addEventListener('click', () => showPeopleSub(t.dataset.sub));
+  });
 
   document.querySelectorAll('nav a[data-view]').forEach(a => {
     a.addEventListener('click', (e) => {
