@@ -149,7 +149,7 @@
   .oc-card.oc-root{padding:14px 22px;}
   .oc-card.oc-root .oc-name{font-family:'Noto Serif KR',serif;font-size:16px;}
   .oc-card.oc-leaf{border-style:dashed;}
-  .oc-children{display:flex;padding-top:26px;position:relative;}
+  .oc-children{display:flex;flex-wrap:nowrap;padding-top:26px;position:relative;}
   .oc-children::before{content:'';position:absolute;top:0;left:50%;height:26px;width:1px;background:var(--hairline);}
   .oc-children > .oc-node{padding:26px 12px 0;position:relative;}
   .oc-children > .oc-node::before{content:'';position:absolute;top:0;left:50%;width:1px;height:26px;background:var(--hairline);}
@@ -158,16 +158,13 @@
   .oc-children > .oc-node:first-child::after{left:50%;}
   .oc-children > .oc-node:last-child::after{right:50%;}
 
-  .oc-leaf-wrap{display:flex;flex-direction:column;align-items:center;padding-top:26px;position:relative;}
-  .oc-leaf-wrap::before{content:'';position:absolute;top:0;left:50%;width:1px;height:26px;background:var(--hairline);}
-  .oc-leaf-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:20px 14px;max-width:640px;position:relative;padding-top:1px;}
-  .oc-leaf-grid::before{content:'';position:absolute;top:0;left:6%;right:6%;height:1px;background:var(--hairline);}
-  .oc-leaf-grid .oc-node{position:relative;padding-top:20px;}
-  .oc-leaf-grid .oc-node::before{content:'';position:absolute;top:0;left:50%;width:1px;height:20px;background:var(--hairline);}
+  .oc-trunk-extra{position:relative;height:58px;display:flex;justify-content:center;}
+  .oc-trunk-extra::before{content:'';position:absolute;top:0;left:50%;width:1px;height:100%;background:var(--hairline);}
 
-  .oc-staff-inline{position:absolute;top:6px;left:50%;display:flex;align-items:center;z-index:1;}
+  .oc-staff-inline{position:absolute;top:50%;left:50%;transform:translateY(-50%);display:flex;align-items:center;}
   .oc-staff-inline::before{content:'';position:absolute;top:50%;left:0;width:32px;height:0;border-top:1px dashed var(--muted);transform:translateY(-50%);}
   .oc-staff-inline .oc-card{margin-left:36px;}
+
   .oc-staff-card{border-style:dashed;}
 
   .people-center{display:flex;justify-content:center;}
@@ -657,12 +654,6 @@
   }
 
   function ocChildrenHtml(nodes) {
-    const allLeaf = nodes.every(n => n.children.length === 0);
-    if (allLeaf && nodes.length > 4) {
-      return '<div class="oc-leaf-wrap"><div class="oc-leaf-grid">' +
-        nodes.map(n => '<div class="oc-node">' + ocCardHtml(n, false) + '</div>').join('') +
-      '</div></div>';
-    }
     return '<div class="oc-children">' +
       nodes.map(n =>
         '<div class="oc-node">' + ocCardHtml(n, false) +
@@ -688,19 +679,19 @@
     const mainNodes = root.children.filter(n => n.name !== 'BizOps');
 
     let html = '<div class="oc-node">' + ocCardHtml(root, true);
-    if (mainNodes.length) {
-      let childrenHtml = ocChildrenHtml(mainNodes);
-      let staffHtml = '';
+
+    if (staffNodes.length) {
+      html += '<div class="oc-trunk-extra">';
       staffNodes.forEach(s => {
-        staffHtml += '<div class="oc-staff-inline"><div class="oc-card oc-leaf oc-staff-card">' +
+        html += '<div class="oc-staff-inline"><div class="oc-card oc-leaf oc-staff-card">' +
           '<div class="oc-name">' + s.name + '</div>' +
           (s.person ? '<div class="oc-role">' + s.person + '</div>' : '') +
         '</div></div>';
       });
-      // ocChildrenHtml이 만들어내는 최상위 children 컨테이너 바로 안쪽에 곁가지를 삽입
-      childrenHtml = childrenHtml.replace('<div class="oc-children">', '<div class="oc-children">' + staffHtml);
-      html += childrenHtml;
+      html += '</div>';
     }
+
+    if (mainNodes.length) html += ocChildrenHtml(mainNodes);
     html += '</div>';
 
     container.innerHTML = html;
