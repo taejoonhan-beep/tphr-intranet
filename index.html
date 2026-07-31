@@ -259,91 +259,14 @@
 
       <div class="cat-tabs">
         <button class="cat-tab active" data-filter="전체">전체</button>
-        <button class="cat-tab" data-filter="공지">공지</button>
-        <button class="cat-tab" data-filter="이벤트">이벤트</button>
-        <button class="cat-tab" data-filter="정책">정책</button>
+        <button class="cat-tab" data-filter="🎈이벤트/행사">이벤트·행사</button>
+        <button class="cat-tab" data-filter="🔐IT/보안">IT·보안</button>
+        <button class="cat-tab" data-filter="📜운영/정책">운영·정책</button>
+        <button class="cat-tab" data-filter="🛠️ 시스템/툴">시스템·툴</button>
       </div>
 
-      <div class="notice-list">
-        <div class="notice" data-cat="정책">
-          <div class="notice-tags"><span class="pin">고정</span><span class="cat-badge">정책</span></div>
-          <div class="notice-body">
-            <h3>브레인커머스 → TPHR 계약 이관 동의서 제출 안내 (6/30 마감)</h3>
-            <div class="meta">BizOps · 태준 · 6월 20일</div>
-          </div>
-        </div>
-
-        <div class="notice" data-cat="이벤트">
-          <div class="notice-tags"><span class="pin">고정</span><span class="cat-badge">이벤트</span></div>
-          <div class="notice-body">
-            <h3>7월 정기 워크숍 일정 및 장소 공유</h3>
-            <div class="meta">경영지원팀 · 6월 18일</div>
-          </div>
-        </div>
-
-        <div class="notice" data-cat="정책">
-          <div class="notice-tags"><span class="cat-badge">정책</span></div>
-          <div class="notice-body">
-            <h3>HubSpot 파이프라인 단계 개편 안내 (헤드헌터 대상)</h3>
-            <div class="meta">BizOps · 태준 · 6월 17일</div>
-          </div>
-        </div>
-
-        <div class="notice" data-cat="이벤트">
-          <div class="notice-tags"><span class="cat-badge">이벤트</span></div>
-          <div class="notice-body">
-            <h3>7월 둘째 주 사내 등산 모임 참가 신청</h3>
-            <div class="meta">경영지원팀 · 6월 16일</div>
-          </div>
-        </div>
-
-        <div class="notice" data-cat="공지">
-          <div class="notice-tags"><span class="cat-badge">공지</span></div>
-          <div class="notice-body">
-            <h3>Shadow Partners 6월 신규 기업관 입점 — 쿠팡 파일럿 결과 공유</h3>
-            <div class="meta">Shadow Partners팀 · 6월 15일</div>
-          </div>
-        </div>
-
-        <div class="notice" data-cat="공지">
-          <div class="notice-tags"><span class="cat-badge">공지</span></div>
-          <div class="notice-body">
-            <h3>장마철 재택 근무 가이드 안내</h3>
-            <div class="meta">경영지원팀 · 6월 12일</div>
-          </div>
-        </div>
-
-        <div class="notice" data-cat="공지">
-          <div class="notice-tags"><span class="cat-badge">공지</span></div>
-          <div class="notice-body">
-            <h3>6월 만족도 서베이 결과 및 NPS 리포트</h3>
-            <div class="meta">BizOps · 태준 · 6월 10일</div>
-          </div>
-        </div>
-
-        <div class="notice" data-cat="공지">
-          <div class="notice-tags"><span class="cat-badge">공지</span></div>
-          <div class="notice-body">
-            <h3>복합기 사용 및 설정 가이드 업데이트</h3>
-            <div class="meta">경영지원팀 · 6월 5일</div>
-          </div>
-        </div>
-
-        <div class="notice" data-cat="공지">
-          <div class="notice-tags"><span class="cat-badge">공지</span></div>
-          <div class="notice-body">
-            <h3>회의실 예약 시스템 사용법 안내</h3>
-            <div class="meta">경영지원팀 · 6월 3일</div>
-          </div>
-        </div>
-
-        <div class="notice" data-cat="공지">
-          <div class="notice-tags"><span class="cat-badge">공지</span></div>
-          <div class="notice-body">
-            <h3>본사 사무실 이사 일정 공유</h3>
-            <div class="meta">경영지원팀 · 5월 28일</div>
-          </div>
-        </div>
+      <div class="notice-list" id="notice-list">
+        <div class="modal-placeholder" style="padding:20px 0;">공지사항을 불러오는 중…</div>
       </div>
     </div>
 
@@ -409,25 +332,6 @@
   <footer>
     TPHR Inside — 내부 직원 전용 페이지입니다.
   </footer>
-
-  <script>
-    const tabs = document.querySelectorAll('.cat-tab');
-    const notices = document.querySelectorAll('.notice');
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        const filter = tab.dataset.filter;
-        notices.forEach(n => {
-          if (filter === '전체' || n.dataset.cat === filter) {
-            n.classList.remove('hidden');
-          } else {
-            n.classList.add('hidden');
-          }
-        });
-      });
-    });
-  </script>
 
 <script>
   const ALLOWED_DOMAINS = ["turningpoint-hr.com", "braincommerce.com"];
@@ -504,7 +408,16 @@
   };
   function displayOrgName(raw) { return ORG_NAME_MAP[raw] || raw; }
 
+  const CAT_LABELS = {
+    '🎈이벤트/행사': '이벤트·행사',
+    '🔐IT/보안': 'IT·보안',
+    '📜운영/정책': '운영·정책',
+    '🛠️ 시스템/툴': '시스템·툴'
+  };
+  function displayCatName(raw) { return CAT_LABELS[raw] || raw; }
+
   let latestData = null;
+  let currentCatFilter = '전체';
 
   function applyUserChip() {
     try {
@@ -546,6 +459,37 @@
       item.addEventListener('click', () => openOrgQuickView(org.name, displayName));
       legendEl.appendChild(item);
     });
+  }
+
+  function formatNoticeDate(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return dateStr;
+    return (d.getMonth() + 1) + '월 ' + d.getDate() + '일';
+  }
+
+  function renderNotices() {
+    const listEl = document.getElementById('notice-list');
+    const all = (latestData && latestData.notices) || [];
+    const filtered = all.filter(n => currentCatFilter === '전체' || (n.categories || []).indexOf(currentCatFilter) !== -1);
+
+    if (filtered.length === 0) {
+      listEl.innerHTML = '<div class="modal-placeholder" style="padding:20px 0;">해당 카테고리의 공지사항이 없어요.</div>';
+      return;
+    }
+
+    listEl.innerHTML = filtered.map(n => {
+      const catBadges = (n.categories || []).map(c => '<span class="cat-badge">' + displayCatName(c) + '</span>').join('');
+      const pin = n.urgent ? '<span class="pin">고정</span>' : '';
+      const meta = [n.author, formatNoticeDate(n.date)].filter(Boolean).join(' · ');
+      return '<div class="notice">' +
+        '<div class="notice-tags">' + pin + catBadges + '</div>' +
+        '<div class="notice-body">' +
+          '<h3>' + n.title + '</h3>' +
+          '<div class="meta">' + meta + '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
   }
 
   function renderNewHires(data) {
@@ -611,10 +555,20 @@
       renderOrgSection(data);
       renderNewHires(data);
       renderDirectory(data);
+      renderNotices();
     }).catch(err => {
       console.warn('TPHR Inside fetch failed:', err);
     });
   }
+
+  document.querySelectorAll('.cat-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentCatFilter = tab.dataset.filter;
+      renderNotices();
+    });
+  });
 
   function openModal(id) { document.getElementById(id).classList.add('open'); }
   function closeModal(id) { document.getElementById(id).classList.remove('open'); }
