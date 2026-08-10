@@ -85,6 +85,10 @@
   .hero-stat .copy .value{font-size:30px;font-weight:700;font-family:'Noto Serif KR',serif;line-height:1;}
   .hero-stat .copy .sub{font-size:12px;color:var(--muted);margin-top:5px;}
 
+  .hero-placeholder{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:30px;}
+  .hero-placeholder-label{font-size:11px;font-weight:600;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;}
+  .hero-placeholder-text{font-family:'Noto Serif KR',serif;font-size:15px;font-weight:600;color:var(--ink-soft);}
+
   .main-grid{display:grid;grid-template-columns:230px 1fr 270px;gap:26px;padding:22px 40px 36px;}
   .section-title{font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-soft);display:flex;align-items:center;gap:10px;margin-bottom:14px;}
   .section-title::after{content:'';flex:1;height:1px;background:var(--hairline);}
@@ -93,7 +97,7 @@
   .link-group-label{font-size:10.5px;font-weight:700;letter-spacing:0.06em;color:var(--muted);text-transform:uppercase;margin-bottom:8px;}
   .link-group-label:not(:first-child){margin-top:16px;}
   .link-list{display:flex;flex-direction:column;gap:6px;}
-  .link-item{border:1px solid var(--hairline);border-radius:7px;padding:9px 11px;font-size:12.5px;font-weight:600;display:flex;align-items:flex-start;gap:9px;transition:border-color .15s, background .15s;}
+  .link-item{border:1px solid var(--hairline);border-radius:7px;padding:9px 11px;font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:9px;transition:border-color .15s, background .15s;}
   .link-item .emoji{font-size:15px;line-height:1.3;flex:none;}
   .link-item .txt{display:flex;flex-direction:column;gap:2px;}
   .link-item:hover{border-color:var(--emerald);background:var(--emerald-soft);}
@@ -224,38 +228,9 @@
 
   <div id="view-home" class="view-page active-view">
   <section class="hero">
-    <div class="hero-stat">
-      <div class="ring">
-        <svg width="92" height="92" viewBox="0 0 84 84">
-          <circle cx="42" cy="42" r="36" fill="none" stroke="#E4E1D8" stroke-width="8"/>
-          <circle cx="42" cy="42" r="36" fill="none" stroke="#1A6B52" stroke-width="8"
-            stroke-dasharray="226.19" stroke-dashoffset="61.07" stroke-linecap="round"/>
-        </svg>
-        <div class="pct">73%</div>
-      </div>
-      <div class="copy">
-        <div class="label">분기 매출 RUN RATE</div>
-        <div class="value serif">73<span style="font-size:14px;">%</span></div>
-        <div class="sub">현재 1.46억</div>
-      </div>
-    </div>
-
-    <div class="hero-divider"></div>
-
-    <div class="hero-stat">
-      <div class="ring">
-        <svg width="92" height="92" viewBox="0 0 84 84">
-          <circle cx="42" cy="42" r="36" fill="none" stroke="#E4E1D8" stroke-width="8"/>
-          <circle cx="42" cy="42" r="36" fill="none" stroke="#C8841D" stroke-width="8"
-            stroke-dasharray="226.19" stroke-dashoffset="85.95" stroke-linecap="round"/>
-        </svg>
-        <div class="pct">62%</div>
-      </div>
-      <div class="copy">
-        <div class="label">분기 PLACEMENT 목표 달성률</div>
-        <div class="value serif">62<span style="font-size:14px;">%</span></div>
-        <div class="sub">목표 50건 · 현재 31건</div>
-      </div>
+    <div class="hero-placeholder">
+      <div class="hero-placeholder-label">주요 지표</div>
+      <div class="hero-placeholder-text">데이터 연동 준비 중이에요</div>
     </div>
   </section>
 
@@ -266,11 +241,23 @@
       <div class="link-list">
         <a class="link-item" href="https://app.notion.com/p/2aa1e6db4089803c8776cd008383e9aa" target="_blank" rel="noopener">
           <span class="emoji">📘</span>
-          <span class="txt">업무가이드<span class="sub">노션 위키</span></span>
+          <span class="txt">업무가이드</span>
+        </a>
+        <a class="link-item" href="https://app.notion.com/p/OPEN-2ae1e6db408980949703f93bd265439c" target="_blank" rel="noopener">
+          <span class="emoji">🗂️</span>
+          <span class="txt">서식 모음</span>
         </a>
         <a class="link-item" href="https://greemja.com/" target="_blank" rel="noopener">
           <span class="emoji">🌓</span>
-          <span class="txt">그림자<span class="sub">그림자 홈페이지</span></span>
+          <span class="txt">그림자</span>
+        </a>
+      </div>
+
+      <div class="link-group-label">업무 툴</div>
+      <div class="link-list">
+        <a class="link-item" href="https://app-na2.hubspot.com/" target="_blank" rel="noopener">
+          <span class="emoji">🧡</span>
+          <span class="txt">허브스팟</span>
         </a>
       </div>
 
@@ -278,15 +265,15 @@
       <div class="link-list">
         <a class="link-item" href="https://tally.so/r/wor1QO" target="_blank" rel="noopener">
           <span class="emoji">🧾</span>
-          <span class="txt">세금계산서 발행요청<span class="sub">Tally 신청서</span></span>
+          <span class="txt">세금계산서 발행요청</span>
         </a>
         <a class="link-item" href="https://tally.so/r/QK2V2p" target="_blank" rel="noopener">
           <span class="emoji">✍️</span>
-          <span class="txt">계약서 날인 요청<span class="sub">Tally 신청서</span></span>
+          <span class="txt">계약서 날인 요청</span>
         </a>
         <a class="link-item" href="https://tally.so/r/Y5DgWJ" target="_blank" rel="noopener">
           <span class="emoji">🏢</span>
-          <span class="txt">고객사 등록<span class="sub">허브스팟 미등록 고객사</span></span>
+          <span class="txt">고객사 등록</span>
         </a>
       </div>
 
@@ -294,7 +281,7 @@
       <div class="link-list">
         <a class="link-item dashboard" href="#" id="link-dashboard">
           <span class="emoji">📊</span>
-          <span class="txt">내 대시보드<span class="sub">발행·날인·수수료 현황</span></span>
+          <span class="txt">내 대시보드</span>
         </a>
       </div>
     </div>
