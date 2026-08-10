@@ -265,7 +265,7 @@
         </a>
       </div>
 
-      <div class="link-group-label">업무 요청</div>
+      <div class="link-group-label">업무 요청 폼</div>
       <div class="link-list">
         <a class="link-item" href="https://tally.so/r/wor1QO" target="_blank" rel="noopener">
           <span class="emoji">🧾</span>
@@ -285,7 +285,7 @@
       <div class="link-list">
         <a class="link-item" href="https://greemja.com/" target="_blank" rel="noopener">
           <span class="emoji">🌓</span>
-          <span class="txt">그림자<span class="sub">장애인채용 전문 자회사 홈페이지</span></span>
+          <span class="txt">그림자 파트너스<span class="sub">장애인 채용 홈페이지</span></span>
         </a>
       </div>
     </div>
@@ -419,22 +419,34 @@
   };
 
   window.addEventListener('load', function () {
+    // auto_select: true → 브라우저에 구글 로그인이 살아있고 이전에 동의한 이력이 있으면
+    // 사용자가 아무것도 누르지 않아도 자동으로 handleCredentialResponse가 호출됨 (조용한 재로그인)
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: handleCredentialResponse,
+      auto_select: true,
+      cancel_on_tap_outside: false
+    });
+
     if (sessionStorage.getItem('tphr_user')) {
       document.getElementById('login-gate').style.display = 'none';
       loadDashboardData();
       applyUserChip();
-      return;
+    } else {
+      google.accounts.id.renderButton(
+        document.getElementById('g_id_signin'),
+        { theme: 'outline', size: 'large', text: 'signin_with' }
+      );
     }
 
-    google.accounts.id.initialize({
-      client_id: GOOGLE_CLIENT_ID,
-      callback: handleCredentialResponse
-    });
+    // 페이지를 열 때마다 백그라운드에서 조용히 재인증을 한 번 시도해 토큰을 최신 상태로 갱신
+    google.accounts.id.prompt();
 
-    google.accounts.id.renderButton(
-      document.getElementById('g_id_signin'),
-      { theme: 'outline', size: 'large', text: 'signin_with' }
-    );
+    // 구글 idToken은 보통 1시간 뒤 만료되므로, 만료 전에 미리 조용히 갱신해서
+    // "매번 로그인 화면이 뜨는" 상황을 최대한 줄임 (구글 로그인 세션 자체가 살아있는 한 사용자 개입 불필요)
+    setInterval(function () {
+      google.accounts.id.prompt();
+    }, 50 * 60 * 1000);
   });
 
   // 로그인 성공 직후에도 데이터 로딩 + 유저칩 갱신
@@ -698,6 +710,11 @@
     window.fetchWithAuth(SHEET_API_URL).then(data => {
       if (data.error) {
         console.warn('TPHR Inside data load error:', data.message);
+        // 토큰이 만료/무효화된 경우: 세션을 정리하고 다시 로그인할 수 있도록 로그인 화면을 띄움
+        // (구글 세션이 살아있다면 auto_select 덕분에 대부분 사용자가 보지 못하고 자동으로 재시도됨)
+        sessionStorage.removeItem('tphr_user');
+        sessionStorage.removeItem('tphr_id_token');
+        document.getElementById('login-gate').style.display = 'flex';
         return;
       }
       latestData = data;
