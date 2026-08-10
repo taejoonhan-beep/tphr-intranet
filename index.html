@@ -112,8 +112,8 @@
   .link-item:hover{border-color:var(--emerald);background:var(--emerald-soft);}
   .link-item .sub{font-size:10.5px;font-weight:400;color:var(--muted);}
 
-  /* notice toolbar (카테고리 탭 + 검색) */
-  .notice-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+  /* notice toolbar (카테고리 탭 + 상태 탭 + 검색, 한 줄) */
+  .notice-toolbar{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
   .cat-tabs{display:flex;gap:8px;flex-wrap:wrap;}
   .cat-tab{
     font-size:11.5px;font-weight:600;color:var(--ink-soft);
@@ -123,7 +123,9 @@
   .cat-tab:hover{border-color:var(--emerald);}
   .cat-tab.active{background:var(--ink);color:#fff;border-color:var(--ink);}
 
-  .status-tabs{display:flex;gap:6px;margin-bottom:14px;}
+  .toolbar-divider{width:1px;height:18px;background:var(--hairline);flex:none;}
+
+  .status-tabs{display:flex;gap:6px;flex-wrap:wrap;}
   .status-tab{
     font-size:11px;font-weight:600;color:var(--muted);
     padding:5px 11px;border-radius:14px;border:1px solid var(--hairline);
@@ -132,7 +134,7 @@
   .status-tab:hover{border-color:var(--ink-soft);color:var(--ink-soft);}
   .status-tab.active{background:var(--ink-soft);color:#fff;border-color:var(--ink-soft);}
 
-  .notice-search{position:relative;}
+  .notice-search{position:relative;margin-left:auto;}
   .notice-search::before{content:'🔎';position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:11px;pointer-events:none;opacity:0.55;}
   .notice-search input{
     font-family:inherit;font-size:12.5px;padding:7px 12px 7px 30px;border:1px solid var(--hairline);border-radius:20px;
@@ -141,22 +143,26 @@
   .notice-search input:focus{outline:none;border-color:var(--emerald);width:210px;}
 
   .notice-list{max-height:478px;overflow-y:auto;}
-  .notice-row{display:flex;align-items:center;gap:16px;padding:11px 6px;border-bottom:1px solid var(--hairline);cursor:pointer;border-radius:6px;transition:background .12s;}
+  .notice-row{display:flex;align-items:center;gap:16px;padding:13px 8px;border-bottom:1px solid var(--hairline);cursor:pointer;border-radius:6px;transition:background .12s;}
   .notice-row:hover{background:var(--emerald-soft);}
+  .notice-row.urgent{background:var(--amber-soft);}
+  .notice-row.urgent:hover{background:#F3DFB4;}
   .notice-row:first-child{padding-top:2px;}
   .notice-row:last-child{border-bottom:none;}
   .notice-row.hidden{display:none;}
-  .notice-cats{flex:0 0 200px;display:flex;gap:5px;flex-wrap:wrap;align-items:center;}
+  .notice-status{flex:0 0 76px;}
+  .notice-cats{flex:0 0 170px;display:flex;gap:5px;flex-wrap:wrap;align-items:center;}
   .notice-title-cell{flex:1;min-width:0;}
-  .notice-title-cell h3{font-size:13.5px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .notice-meta-cell{flex:0 0 auto;display:flex;align-items:center;justify-content:flex-end;gap:16px;font-size:11.5px;color:var(--muted);white-space:nowrap;}
+  .notice-title-cell h3{font-size:15px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .notice-meta-cell{flex:0 0 auto;display:flex;align-items:center;justify-content:flex-end;gap:16px;font-size:12.5px;color:var(--muted);white-space:nowrap;}
   .notice-meta-cell .notice-author{min-width:70px;text-align:right;}
   .notice-meta-cell .notice-date{min-width:52px;text-align:right;}
   .notice-row.ended{opacity:0.6;}
   .notice-row.ended .notice-title-cell h3{color:var(--ink-soft);}
-  .ended-badge{font-size:9.5px;font-weight:700;color:#fff;background:var(--muted);padding:3px 7px;border-radius:4px;letter-spacing:0.03em;white-space:nowrap;}
-  .pin{background:var(--amber-soft);color:var(--amber);font-size:9.5px;font-weight:700;padding:3px 7px;border-radius:4px;letter-spacing:0.04em;}
-  .cat-badge{font-size:9.5px;font-weight:700;letter-spacing:0.03em;color:var(--ink-soft);background:var(--bg);border:1px solid var(--hairline);padding:3px 7px;border-radius:4px;text-transform:uppercase;white-space:nowrap;}
+  .ended-badge{font-size:10px;font-weight:700;color:#fff;background:var(--muted);padding:3px 8px;border-radius:4px;letter-spacing:0.03em;white-space:nowrap;}
+  .status-badge{font-size:10px;font-weight:700;color:var(--emerald);background:var(--emerald-soft);padding:3px 8px;border-radius:4px;letter-spacing:0.03em;white-space:nowrap;}
+  .pin{background:var(--amber-soft);color:var(--amber);font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:0.03em;white-space:nowrap;}
+  .cat-badge{font-size:10px;font-weight:700;letter-spacing:0.03em;color:var(--ink-soft);background:var(--bg);border:1px solid var(--hairline);padding:3px 8px;border-radius:4px;text-transform:uppercase;white-space:nowrap;}
 
   /* 공지사항 상세보기 본문 */
   .notice-detail-meta{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);}
@@ -388,15 +394,15 @@
           <button class="cat-tab" data-filter="📜운영/정책">운영·정책</button>
           <button class="cat-tab" data-filter="🛠️ 시스템/툴">시스템·툴</button>
         </div>
+        <div class="toolbar-divider"></div>
+        <div class="status-tabs">
+          <button class="status-tab active" data-status="전체">전체</button>
+          <button class="status-tab" data-status="발행 완료">게시중</button>
+          <button class="status-tab" data-status="게시 종료">게시종료</button>
+        </div>
         <div class="notice-search">
           <input type="text" id="notice-search-input" placeholder="제목 검색">
         </div>
-      </div>
-
-      <div class="status-tabs">
-        <button class="status-tab active" data-status="전체">전체</button>
-        <button class="status-tab" data-status="발행 완료">게시중</button>
-        <button class="status-tab" data-status="게시 종료">게시종료</button>
       </div>
 
       <div class="notice-list" id="notice-list">
@@ -739,11 +745,14 @@
 
     listEl.innerHTML = filtered.map(n => {
       const ended = n.status === '게시 종료';
+      const statusBadge = ended
+        ? '<span class="ended-badge">게시종료</span>'
+        : '<span class="status-badge">게시중</span>';
       const catBadges = (n.categories || []).map(c => '<span class="cat-badge">' + displayCatName(c) + '</span>').join('');
-      const pin = n.urgent ? '<span class="pin">고정</span>' : '';
-      const endedBadge = ended ? '<span class="ended-badge">종료</span>' : '';
-      return '<div class="notice-row' + (ended ? ' ended' : '') + '" data-page-id="' + n.id + '">' +
-        '<div class="notice-cats">' + endedBadge + pin + catBadges + '</div>' +
+      const rowClasses = 'notice-row' + (ended ? ' ended' : '') + (n.urgent ? ' urgent' : '');
+      return '<div class="' + rowClasses + '" data-page-id="' + n.id + '">' +
+        '<div class="notice-status">' + statusBadge + '</div>' +
+        '<div class="notice-cats">' + catBadges + '</div>' +
         '<div class="notice-title-cell"><h3>' + n.title + '</h3></div>' +
         '<div class="notice-meta-cell">' +
           '<span class="notice-author">' + (n.author || '') + '</span>' +
