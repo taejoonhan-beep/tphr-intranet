@@ -147,7 +147,6 @@
   .notice-row:hover{background:var(--emerald-soft);}
   .notice-row.urgent{background:var(--amber-soft);}
   .notice-row.urgent:hover{background:#F3DFB4;}
-  .notice-row:first-child{padding-top:2px;}
   .notice-row:last-child{border-bottom:none;}
   .notice-row.hidden{display:none;}
   .notice-status{flex:0 0 76px;}
@@ -396,8 +395,7 @@
         </div>
         <div class="toolbar-divider"></div>
         <div class="status-tabs">
-          <button class="status-tab active" data-status="전체">전체</button>
-          <button class="status-tab" data-status="발행 완료">게시중</button>
+          <button class="status-tab active" data-status="발행 완료">게시중</button>
           <button class="status-tab" data-status="게시 종료">게시종료</button>
         </div>
         <div class="notice-search">
@@ -667,7 +665,7 @@
 
   let latestData = null;
   let currentCatFilter = '전체';
-  let currentStatusFilter = '전체';
+  let currentStatusFilter = '발행 완료';
   let currentSearchQuery = '';
   let isAdminUser = false;
   let editingNoticeId = null;
@@ -745,16 +743,11 @@
 
     listEl.innerHTML = filtered.map(n => {
       const ended = n.status === '게시 종료';
-      const statusBadge = ended
-        ? '<span class="ended-badge">게시종료</span>'
-        : '<span class="status-badge">게시중</span>';
-      const showStatus = currentStatusFilter === '전체';
       const catBadges = (n.categories || []).map(c => '<span class="cat-badge">' + displayCatName(c) + '</span>').join('');
       const rowClasses = 'notice-row' + (ended ? ' ended' : '') + (n.urgent ? ' urgent' : '');
       return '<div class="' + rowClasses + '" data-page-id="' + n.id + '">' +
         '<div class="notice-cats">' + catBadges + '</div>' +
         '<div class="notice-title-cell"><h3>' + n.title + '</h3></div>' +
-        (showStatus ? '<div class="notice-status">' + statusBadge + '</div>' : '') +
         '<div class="notice-meta-cell">' +
           '<span class="notice-author">' + (n.author || '') + '</span>' +
           '<span class="notice-date">' + formatNoticeDate(n.date) + '</span>' +
