@@ -48,9 +48,21 @@
   .masthead-right{display:flex;align-items:center;gap:16px;justify-self:end;}
   .contact-btn{font-size:12px;font-weight:700;color:#fff;background:var(--ink);padding:7px 13px;border-radius:6px;transition:background .15s;}
   .contact-btn:hover{background:var(--emerald);}
+  .user-chip-wrap{position:relative;}
   .user-chip{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-soft);background:var(--card);border:1px solid var(--hairline);padding:5px 10px 5px 6px;border-radius:20px;cursor:pointer;transition:border-color .15s,background .15s;font-weight:600;}
   .user-chip:hover{border-color:var(--emerald);background:var(--emerald-soft);}
   .avatar{width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:600;flex:none;}
+
+  .user-dropdown{
+    position:absolute;top:calc(100% + 8px);right:0;
+    background:var(--card);border:1px solid var(--hairline);border-radius:10px;
+    box-shadow:0 12px 30px rgba(27,29,41,0.15);
+    min-width:180px;padding:6px;display:none;z-index:950;
+  }
+  .user-dropdown.open{display:block;}
+  .dropdown-item{display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:600;color:var(--ink-soft);padding:9px 10px;border-radius:7px;transition:background .12s,color .12s;}
+  .dropdown-item:hover{background:var(--emerald-soft);color:var(--emerald);}
+  .dropdown-item .emoji{font-size:14px;}
 
   /* modal */
   .modal-overlay{position:fixed;inset:0;background:rgba(27,29,41,0.45);z-index:900;display:none;align-items:center;justify-content:center;padding:40px;}
@@ -76,15 +88,6 @@
     margin:22px 40px 0;border:1px solid var(--hairline);border-radius:10px;background:var(--card);
     display:flex;align-items:stretch;justify-content:center;
   }
-  .hero-stat{flex:1;display:flex;align-items:center;justify-content:center;gap:22px;padding:22px 32px;}
-  .hero-divider{width:1px;background:var(--hairline);margin:18px 0;}
-  .hero-stat .ring{position:relative;width:92px;height:92px;flex:none;}
-  .hero-stat .ring svg{transform:rotate(-90deg);}
-  .hero-stat .ring .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif KR',serif;font-weight:700;font-size:21px;}
-  .hero-stat .copy .label{font-size:11px;font-weight:600;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;margin-bottom:8px;}
-  .hero-stat .copy .value{font-size:30px;font-weight:700;font-family:'Noto Serif KR',serif;line-height:1;}
-  .hero-stat .copy .sub{font-size:12px;color:var(--muted);margin-top:5px;}
-
   .hero-placeholder{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:30px;}
   .hero-placeholder-label{font-size:11px;font-weight:600;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;}
   .hero-placeholder-text{font-family:'Noto Serif KR',serif;font-size:15px;font-weight:600;color:var(--ink-soft);}
@@ -96,14 +99,13 @@
   .links-card{background:var(--card);border:1px solid var(--hairline);border-radius:10px;padding:18px;}
   .link-group-label{font-size:10.5px;font-weight:700;letter-spacing:0.06em;color:var(--muted);text-transform:uppercase;margin-bottom:8px;}
   .link-group-label:not(:first-child){margin-top:16px;}
+  .link-group-label.divider{margin-top:22px;padding-top:16px;border-top:1px solid var(--hairline);}
   .link-list{display:flex;flex-direction:column;gap:6px;}
   .link-item{border:1px solid var(--hairline);border-radius:7px;padding:9px 11px;font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:9px;transition:border-color .15s, background .15s;}
   .link-item .emoji{font-size:15px;line-height:1.3;flex:none;}
   .link-item .txt{display:flex;flex-direction:column;gap:2px;}
   .link-item:hover{border-color:var(--emerald);background:var(--emerald-soft);}
   .link-item .sub{font-size:10.5px;font-weight:400;color:var(--muted);}
-  .link-item.dashboard{border-color:var(--ink);}
-  .link-item.dashboard:hover{border-color:var(--emerald);}
 
   /* notice category tabs */
   .cat-tabs{display:flex;gap:8px;margin-bottom:16px;}
@@ -116,15 +118,18 @@
   .cat-tab.active{background:var(--ink);color:#fff;border-color:var(--ink);}
 
   .notice-list{max-height:478px;overflow-y:auto;}
-  .notice{display:flex;flex-direction:column;gap:5px;padding:11px 0;border-bottom:1px solid var(--hairline);}
-  .notice:first-child{padding-top:0;}
-  .notice:last-child{border-bottom:none;}
-  .notice.hidden{display:none;}
-  .notice-tags{display:flex;gap:6px;align-items:center;}
+  .notice-row{display:flex;align-items:center;gap:16px;padding:11px 2px;border-bottom:1px solid var(--hairline);}
+  .notice-row:first-child{padding-top:2px;}
+  .notice-row:last-child{border-bottom:none;}
+  .notice-row.hidden{display:none;}
+  .notice-cats{flex:0 0 200px;display:flex;gap:5px;flex-wrap:wrap;align-items:center;}
+  .notice-title-cell{flex:1;min-width:0;}
+  .notice-title-cell h3{font-size:13.5px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .notice-meta-cell{flex:0 0 auto;display:flex;align-items:center;justify-content:flex-end;gap:16px;font-size:11.5px;color:var(--muted);white-space:nowrap;}
+  .notice-meta-cell .notice-author{min-width:70px;text-align:right;}
+  .notice-meta-cell .notice-date{min-width:52px;text-align:right;}
   .pin{background:var(--amber-soft);color:var(--amber);font-size:9.5px;font-weight:700;padding:3px 7px;border-radius:4px;letter-spacing:0.04em;}
   .cat-badge{font-size:9.5px;font-weight:700;letter-spacing:0.03em;color:var(--ink-soft);background:var(--bg);border:1px solid var(--hairline);padding:3px 7px;border-radius:4px;text-transform:uppercase;white-space:nowrap;}
-  .notice-body h3{font-size:13.5px;font-weight:600;margin-bottom:3px;line-height:1.3;}
-  .notice-body .meta{font-size:11px;color:var(--muted);}
 
   .team-card{background:var(--card);border:1px solid var(--hairline);border-radius:10px;padding:20px;}
   .subsection-title{font-size:10.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
@@ -212,17 +217,24 @@
     <nav>
       <a class="active" id="nav-home" data-view="view-home">HOME</a>
       <a id="nav-team" data-view="view-team">피플</a>
-      <a id="nav-links" data-view="view-links">업무 링크</a>
       <a id="nav-dashboard" data-view="view-dashboard">대시보드</a>
     </nav>
     <div class="wordmark">TPHR <span>Inside</span></div>
     <div class="masthead-right">
       <div class="date-line" id="today-date"></div>
       <a class="contact-btn" href="mailto:genie@braincommerce.com">BizOps팀에 문의하기</a>
-      <button class="user-chip" id="user-chip-btn">
-        <div class="avatar" id="user-avatar">태</div>
-        <span id="user-chip-label">태준 · BizOps</span>
-      </button>
+      <div class="user-chip-wrap">
+        <button class="user-chip" id="user-chip-btn">
+          <div class="avatar" id="user-avatar">태</div>
+          <span id="user-chip-label">태준 · BizOps</span>
+        </button>
+        <div class="user-dropdown" id="user-dropdown">
+          <a class="dropdown-item" href="#" id="link-dashboard">
+            <span class="emoji">📊</span>
+            <span>내 대시보드</span>
+          </a>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -237,8 +249,12 @@
   <div class="main-grid">
 
     <div class="links-card" id="work-links">
-      <div class="link-group-label">정보·위키</div>
+      <div class="link-group-label">바로가기</div>
       <div class="link-list">
+        <a class="link-item" href="https://app-na2.hubspot.com/" target="_blank" rel="noopener">
+          <span class="emoji">🧡</span>
+          <span class="txt">허브스팟</span>
+        </a>
         <a class="link-item" href="https://app.notion.com/p/2aa1e6db4089803c8776cd008383e9aa" target="_blank" rel="noopener">
           <span class="emoji">📘</span>
           <span class="txt">업무가이드</span>
@@ -246,18 +262,6 @@
         <a class="link-item" href="https://app.notion.com/p/OPEN-2ae1e6db408980949703f93bd265439c" target="_blank" rel="noopener">
           <span class="emoji">🗂️</span>
           <span class="txt">서식 모음</span>
-        </a>
-        <a class="link-item" href="https://greemja.com/" target="_blank" rel="noopener">
-          <span class="emoji">🌓</span>
-          <span class="txt">그림자</span>
-        </a>
-      </div>
-
-      <div class="link-group-label">업무 툴</div>
-      <div class="link-list">
-        <a class="link-item" href="https://app-na2.hubspot.com/" target="_blank" rel="noopener">
-          <span class="emoji">🧡</span>
-          <span class="txt">허브스팟</span>
         </a>
       </div>
 
@@ -277,11 +281,11 @@
         </a>
       </div>
 
-      <div class="link-group-label" id="dashboard-links">대시보드</div>
+      <div class="link-group-label divider">관계사</div>
       <div class="link-list">
-        <a class="link-item dashboard" href="#" id="link-dashboard">
-          <span class="emoji">📊</span>
-          <span class="txt">내 대시보드</span>
+        <a class="link-item" href="https://greemja.com/" target="_blank" rel="noopener">
+          <span class="emoji">🌓</span>
+          <span class="txt">그림자<span class="sub">장애인채용 전문 자회사 홈페이지</span></span>
         </a>
       </div>
     </div>
@@ -363,7 +367,6 @@
     </div>
   </div>
 
-  <div id="view-links" class="view-page empty-page">업무 링크 페이지는 준비 중이에요.</div>
   <div id="view-dashboard" class="view-page empty-page">대시보드 페이지는 준비 중이에요.</div>
 
   <div class="modal-overlay" id="org-quick-modal-overlay">
@@ -374,18 +377,6 @@
       </div>
       <div class="modal-body" id="org-quick-body">
         <div class="modal-placeholder">불러오는 중…</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="mypage-modal-overlay">
-    <div class="modal-box" style="max-width:420px;">
-      <div class="modal-head">
-        <h2>마이페이지</h2>
-        <button class="modal-close" id="mypage-modal-close">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="modal-placeholder">마이페이지는 준비 중이에요. 곧 채워질 예정이에요.</div>
       </div>
     </div>
   </div>
@@ -542,12 +533,12 @@
     listEl.innerHTML = filtered.map(n => {
       const catBadges = (n.categories || []).map(c => '<span class="cat-badge">' + displayCatName(c) + '</span>').join('');
       const pin = n.urgent ? '<span class="pin">고정</span>' : '';
-      const meta = [n.author, formatNoticeDate(n.date)].filter(Boolean).join(' · ');
-      return '<div class="notice">' +
-        '<div class="notice-tags">' + pin + catBadges + '</div>' +
-        '<div class="notice-body">' +
-          '<h3>' + n.title + '</h3>' +
-          '<div class="meta">' + meta + '</div>' +
+      return '<div class="notice-row">' +
+        '<div class="notice-cats">' + pin + catBadges + '</div>' +
+        '<div class="notice-title-cell"><h3>' + n.title + '</h3></div>' +
+        '<div class="notice-meta-cell">' +
+          '<span class="notice-author">' + (n.author || '') + '</span>' +
+          '<span class="notice-date">' + formatNoticeDate(n.date) + '</span>' +
         '</div>' +
       '</div>';
     }).join('');
@@ -766,12 +757,20 @@
   document.getElementById('org-quick-modal-close').addEventListener('click', () => closeModal('org-quick-modal-overlay'));
   document.getElementById('org-quick-modal-overlay').addEventListener('click', (e) => { if (e.target.id === 'org-quick-modal-overlay') closeModal('org-quick-modal-overlay'); });
 
-  document.getElementById('user-chip-btn').addEventListener('click', () => openModal('mypage-modal-overlay'));
-  document.getElementById('mypage-modal-close').addEventListener('click', () => closeModal('mypage-modal-overlay'));
-  document.getElementById('mypage-modal-overlay').addEventListener('click', (e) => { if (e.target.id === 'mypage-modal-overlay') closeModal('mypage-modal-overlay'); });
+  const userChipBtn = document.getElementById('user-chip-btn');
+  const userDropdown = document.getElementById('user-dropdown');
+  userChipBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    userDropdown.classList.toggle('open');
+  });
+  document.addEventListener('click', (e) => {
+    if (!userDropdown.contains(e.target) && e.target !== userChipBtn) {
+      userDropdown.classList.remove('open');
+    }
+  });
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') { closeModal('org-quick-modal-overlay'); closeModal('mypage-modal-overlay'); }
+    if (e.key === 'Escape') { closeModal('org-quick-modal-overlay'); userDropdown.classList.remove('open'); }
   });
 
   setTodayDate();
