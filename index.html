@@ -45,9 +45,13 @@
   nav{display:flex;gap:28px;align-items:baseline;justify-self:start;}
   nav a{font-size:12.5px;font-weight:600;letter-spacing:0.06em;color:var(--ink-soft);padding-bottom:4px;border-bottom:2px solid transparent;cursor:pointer;}
   nav a.active{color:var(--ink);border-bottom-color:var(--emerald);}
-  .masthead-right{display:flex;align-items:center;gap:16px;justify-self:end;}
+  .masthead-right{display:flex;align-items:center;gap:12px;justify-self:end;}
   .contact-btn{font-size:12px;font-weight:700;color:#fff;background:var(--ink);padding:7px 13px;border-radius:6px;transition:background .15s;}
   .contact-btn:hover{background:var(--emerald);}
+
+  .admin-btn{width:32px;height:32px;border-radius:50%;border:1px solid var(--hairline);background:var(--card);font-size:14px;cursor:pointer;display:none;align-items:center;justify-content:center;transition:border-color .15s,background .15s;}
+  .admin-btn:hover{border-color:var(--emerald);background:var(--emerald-soft);}
+
   .user-chip-wrap{position:relative;}
   .user-chip{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-soft);background:var(--card);border:1px solid var(--hairline);padding:5px 10px 5px 6px;border-radius:20px;cursor:pointer;transition:border-color .15s,background .15s;font-weight:600;}
   .user-chip:hover{border-color:var(--emerald);background:var(--emerald-soft);}
@@ -107,8 +111,9 @@
   .link-item:hover{border-color:var(--emerald);background:var(--emerald-soft);}
   .link-item .sub{font-size:10.5px;font-weight:400;color:var(--muted);}
 
-  /* notice category tabs */
-  .cat-tabs{display:flex;gap:8px;margin-bottom:16px;}
+  /* notice toolbar (카테고리 탭 + 검색) */
+  .notice-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+  .cat-tabs{display:flex;gap:8px;flex-wrap:wrap;}
   .cat-tab{
     font-size:11.5px;font-weight:600;color:var(--ink-soft);
     padding:6px 13px;border-radius:20px;border:1px solid var(--hairline);
@@ -117,8 +122,17 @@
   .cat-tab:hover{border-color:var(--emerald);}
   .cat-tab.active{background:var(--ink);color:#fff;border-color:var(--ink);}
 
+  .notice-search{position:relative;}
+  .notice-search::before{content:'🔎';position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:11px;pointer-events:none;opacity:0.55;}
+  .notice-search input{
+    font-family:inherit;font-size:12.5px;padding:7px 12px 7px 30px;border:1px solid var(--hairline);border-radius:20px;
+    background:var(--card);color:var(--ink);width:160px;transition:border-color .15s,width .15s;
+  }
+  .notice-search input:focus{outline:none;border-color:var(--emerald);width:210px;}
+
   .notice-list{max-height:478px;overflow-y:auto;}
-  .notice-row{display:flex;align-items:center;gap:16px;padding:11px 2px;border-bottom:1px solid var(--hairline);}
+  .notice-row{display:flex;align-items:center;gap:16px;padding:11px 6px;border-bottom:1px solid var(--hairline);cursor:pointer;border-radius:6px;transition:background .12s;}
+  .notice-row:hover{background:var(--emerald-soft);}
   .notice-row:first-child{padding-top:2px;}
   .notice-row:last-child{border-bottom:none;}
   .notice-row.hidden{display:none;}
@@ -130,6 +144,19 @@
   .notice-meta-cell .notice-date{min-width:52px;text-align:right;}
   .pin{background:var(--amber-soft);color:var(--amber);font-size:9.5px;font-weight:700;padding:3px 7px;border-radius:4px;letter-spacing:0.04em;}
   .cat-badge{font-size:9.5px;font-weight:700;letter-spacing:0.03em;color:var(--ink-soft);background:var(--bg);border:1px solid var(--hairline);padding:3px 7px;border-radius:4px;text-transform:uppercase;white-space:nowrap;}
+
+  /* 공지사항 상세보기 본문 */
+  .notice-detail-meta{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);}
+  .notice-content p{margin:0 0 12px;line-height:1.75;font-size:13.5px;color:var(--ink-soft);}
+  .notice-content h2,.notice-content h3,.notice-content h4{margin:18px 0 8px;font-family:'Noto Serif KR',serif;color:var(--ink);}
+  .notice-content ul,.notice-content ol{margin:0 0 12px 20px;font-size:13.5px;color:var(--ink-soft);}
+  .notice-content li{margin-bottom:4px;}
+  .notice-content blockquote{border-left:3px solid var(--emerald);padding:4px 14px;margin:0 0 12px;color:var(--ink-soft);font-style:italic;}
+  .notice-content pre{background:var(--bg);border:1px solid var(--hairline);border-radius:6px;padding:12px;overflow-x:auto;font-size:12px;margin-bottom:12px;}
+  .notice-content hr{border:none;border-top:1px solid var(--hairline);margin:16px 0;}
+  .notice-content img{max-width:100%;border-radius:8px;margin:6px 0 12px;display:block;}
+  .notice-content .notice-callout{background:var(--emerald-soft);border-radius:8px;padding:12px 14px;margin-bottom:12px;font-size:13px;}
+  .notice-content .notice-todo{font-size:13.5px;color:var(--ink-soft);margin-bottom:6px;}
 
   .team-card{background:var(--card);border:1px solid var(--hairline);border-radius:10px;padding:20px;}
   .subsection-title{font-size:10.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
@@ -201,6 +228,38 @@
   .people-row .pname{font-size:12.5px;font-weight:600;}
   .people-row .prole{font-size:10.5px;color:var(--muted);}
 
+  /* 관리자 페이지 */
+  .admin-layout{display:flex;gap:24px;max-width:1100px;margin:0 auto;}
+  .admin-sidebar{flex:0 0 160px;display:flex;flex-direction:column;gap:4px;}
+  .admin-menu-item{font-size:12.5px;font-weight:700;color:var(--ink-soft);padding:10px 12px;border-radius:8px;cursor:pointer;transition:background .12s,color .12s;}
+  .admin-menu-item:hover{background:var(--emerald-soft);}
+  .admin-menu-item.active{background:var(--ink);color:#fff;}
+  .admin-content{flex:1;min-width:0;}
+  .admin-content-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+  .admin-add-btn{font-size:12px;font-weight:700;color:#fff;background:var(--emerald);border:none;padding:8px 14px;border-radius:7px;cursor:pointer;transition:background .15s;}
+  .admin-add-btn:hover{background:var(--emerald-light);}
+  .admin-notice-row{display:flex;align-items:center;gap:12px;padding:11px 4px;border-bottom:1px solid var(--hairline);}
+  .admin-notice-row:last-child{border-bottom:none;}
+  .admin-notice-row .title{flex:1;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .admin-notice-actions{display:flex;gap:6px;flex:none;}
+  .admin-icon-btn{font-size:11.5px;font-weight:700;border:1px solid var(--hairline);background:var(--card);padding:6px 11px;border-radius:6px;cursor:pointer;color:var(--ink-soft);transition:border-color .12s,color .12s;}
+  .admin-icon-btn:hover{border-color:var(--emerald);color:var(--emerald);}
+  .admin-icon-btn.danger:hover{border-color:#c0392b;color:#c0392b;}
+
+  .admin-form{display:flex;flex-direction:column;gap:14px;}
+  .admin-form label{display:flex;flex-direction:column;gap:5px;font-size:12px;font-weight:700;color:var(--ink-soft);}
+  .admin-form input[type=text],.admin-form input[type=date],.admin-form textarea{
+    font-family:inherit;font-size:13px;font-weight:500;color:var(--ink);
+    border:1px solid var(--hairline);border-radius:7px;padding:9px 11px;
+  }
+  .admin-form input[type=checkbox]{width:14px;height:14px;}
+  .admin-form textarea{resize:vertical;min-height:120px;line-height:1.6;}
+  .admin-form > label.inline-check{flex-direction:row;align-items:center;gap:7px;}
+  .admin-checkbox-group{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;font-weight:500;color:var(--ink-soft);}
+  .admin-checkbox-group label{flex-direction:row;align-items:center;gap:5px;font-weight:500;}
+  .admin-form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:4px;}
+  .admin-form-hint{font-size:11px;color:var(--muted);font-weight:400;}
+
   footer{padding:14px 40px 22px;font-size:10.5px;color:var(--muted);border-top:1px solid var(--hairline);}
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -223,6 +282,7 @@
     <div class="masthead-right">
       <div class="date-line" id="today-date"></div>
       <a class="contact-btn" href="mailto:genie@braincommerce.com">BizOps팀에 문의하기</a>
+      <button class="admin-btn" id="admin-btn" title="관리자 페이지">⚙️</button>
       <div class="user-chip-wrap">
         <button class="user-chip" id="user-chip-btn">
           <div class="avatar" id="user-avatar">태</div>
@@ -293,12 +353,17 @@
     <div>
       <div class="section-title">공지사항</div>
 
-      <div class="cat-tabs">
-        <button class="cat-tab active" data-filter="전체">전체</button>
-        <button class="cat-tab" data-filter="🎈이벤트/행사">이벤트·행사</button>
-        <button class="cat-tab" data-filter="🔐IT/보안">IT·보안</button>
-        <button class="cat-tab" data-filter="📜운영/정책">운영·정책</button>
-        <button class="cat-tab" data-filter="🛠️ 시스템/툴">시스템·툴</button>
+      <div class="notice-toolbar">
+        <div class="cat-tabs">
+          <button class="cat-tab active" data-filter="전체">전체</button>
+          <button class="cat-tab" data-filter="🎈이벤트/행사">이벤트·행사</button>
+          <button class="cat-tab" data-filter="🔐IT/보안">IT·보안</button>
+          <button class="cat-tab" data-filter="📜운영/정책">운영·정책</button>
+          <button class="cat-tab" data-filter="🛠️ 시스템/툴">시스템·툴</button>
+        </div>
+        <div class="notice-search">
+          <input type="text" id="notice-search-input" placeholder="제목 검색">
+        </div>
       </div>
 
       <div class="notice-list" id="notice-list">
@@ -369,6 +434,25 @@
 
   <div id="view-dashboard" class="view-page empty-page">대시보드 페이지는 준비 중이에요.</div>
 
+  <div id="view-admin" class="view-page team-page">
+    <div class="admin-layout">
+      <div class="admin-sidebar">
+        <div class="admin-menu-item active" data-admin-menu="admin-notices">공지사항</div>
+      </div>
+      <div class="admin-content">
+        <div id="admin-notices" class="admin-menu-view">
+          <div class="admin-content-head">
+            <div class="section-title" style="margin-bottom:0;">공지사항 관리</div>
+            <button class="admin-add-btn" id="admin-notice-add-btn">+ 새 공지</button>
+          </div>
+          <div id="admin-notice-list">
+            <div class="modal-placeholder">불러오는 중…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="modal-overlay" id="org-quick-modal-overlay">
     <div class="modal-box" style="max-width:380px;">
       <div class="modal-head">
@@ -377,6 +461,60 @@
       </div>
       <div class="modal-body" id="org-quick-body">
         <div class="modal-placeholder">불러오는 중…</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="notice-detail-modal-overlay">
+    <div class="modal-box" style="max-width:640px;">
+      <div class="modal-head">
+        <h2 id="notice-detail-title">공지사항</h2>
+        <button class="modal-close" id="notice-detail-modal-close">&times;</button>
+      </div>
+      <div class="modal-body" id="notice-detail-body">
+        <div class="modal-placeholder">불러오는 중…</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="admin-notice-form-overlay">
+    <div class="modal-box" style="max-width:560px;">
+      <div class="modal-head">
+        <h2 id="admin-notice-form-title">새 공지사항</h2>
+        <button class="modal-close" id="admin-notice-form-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="admin-notice-form" class="admin-form">
+          <label>제목
+            <input type="text" id="af-title" required>
+          </label>
+          <label>날짜
+            <input type="date" id="af-date">
+          </label>
+          <label>카테고리
+            <div class="admin-checkbox-group">
+              <label><input type="checkbox" value="🎈이벤트/행사"> 이벤트·행사</label>
+              <label><input type="checkbox" value="🔐IT/보안"> IT·보안</label>
+              <label><input type="checkbox" value="📜운영/정책"> 운영·정책</label>
+              <label><input type="checkbox" value="🛠️ 시스템/툴"> 시스템·툴</label>
+            </div>
+          </label>
+          <label class="inline-check"><input type="checkbox" id="af-urgent"> 고정(긴급) 공지로 표시</label>
+          <label>작성자
+            <input type="text" id="af-author">
+          </label>
+          <label>요약 (메일용)
+            <input type="text" id="af-summary">
+          </label>
+          <label>본문
+            <textarea id="af-content" rows="8"></textarea>
+            <span class="admin-form-hint">굵게/제목 등 서식은 저장 시 일반 문단으로 단순화돼요. 서식이 중요한 공지는 노션에서 직접 수정하는 걸 추천해요.</span>
+          </label>
+          <div class="admin-form-actions">
+            <button type="button" class="admin-icon-btn" id="admin-notice-form-cancel">취소</button>
+            <button type="submit" class="admin-add-btn">저장</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -411,7 +549,6 @@
   }
 
   // 앞으로 Sheets API(Apps Script)를 호출할 때 이 함수를 쓰면 로그인 토큰이 자동으로 같이 전송됨
-  // 예: fetchWithAuth(SHEET_API_URL).then(data => ...)
   window.fetchWithAuth = function (baseUrl) {
     const token = sessionStorage.getItem('tphr_id_token');
     const url = baseUrl + (baseUrl.includes('?') ? '&' : '?') + 'idToken=' + encodeURIComponent(token || '');
@@ -482,6 +619,9 @@
 
   let latestData = null;
   let currentCatFilter = '전체';
+  let currentSearchQuery = '';
+  let isAdminUser = false;
+  let editingNoticeId = null;
 
   function applyUserChip() {
     try {
@@ -490,6 +630,11 @@
       document.getElementById('user-chip-label').textContent = user.name;
       document.getElementById('user-avatar').textContent = user.name.charAt(0);
     } catch (e) {}
+  }
+
+  function applyAdminUi(data) {
+    isAdminUser = !!data.isAdmin;
+    document.getElementById('admin-btn').style.display = isAdminUser ? 'flex' : 'none';
   }
 
   function setTodayDate() {
@@ -535,17 +680,23 @@
   function renderNotices() {
     const listEl = document.getElementById('notice-list');
     const all = (latestData && latestData.notices) || [];
-    const filtered = all.filter(n => currentCatFilter === '전체' || (n.categories || []).indexOf(currentCatFilter) !== -1);
+    const q = currentSearchQuery.trim().toLowerCase();
+    const filtered = all.filter(n => {
+      const matchesCat = currentCatFilter === '전체' || (n.categories || []).indexOf(currentCatFilter) !== -1;
+      const matchesQuery = !q || (n.title || '').toLowerCase().indexOf(q) !== -1;
+      return matchesCat && matchesQuery;
+    });
 
     if (filtered.length === 0) {
-      listEl.innerHTML = '<div class="modal-placeholder" style="padding:20px 0;">해당 카테고리의 공지사항이 없어요.</div>';
+      listEl.innerHTML = '<div class="modal-placeholder" style="padding:20px 0;">' +
+        (q ? '검색 결과가 없어요.' : '해당 카테고리의 공지사항이 없어요.') + '</div>';
       return;
     }
 
     listEl.innerHTML = filtered.map(n => {
       const catBadges = (n.categories || []).map(c => '<span class="cat-badge">' + displayCatName(c) + '</span>').join('');
       const pin = n.urgent ? '<span class="pin">고정</span>' : '';
-      return '<div class="notice-row">' +
+      return '<div class="notice-row" data-page-id="' + n.id + '">' +
         '<div class="notice-cats">' + pin + catBadges + '</div>' +
         '<div class="notice-title-cell"><h3>' + n.title + '</h3></div>' +
         '<div class="notice-meta-cell">' +
@@ -706,27 +857,41 @@
     openModal('org-quick-modal-overlay');
   }
 
-  function loadDashboardData() {
-    window.fetchWithAuth(SHEET_API_URL).then(data => {
+  // 공지사항 상세보기: 노션 원문 블록을 그대로 가져와서 렌더링
+  function openNoticeDetail(pageId) {
+    document.getElementById('notice-detail-title').textContent = '불러오는 중…';
+    document.getElementById('notice-detail-body').innerHTML = '<div class="modal-placeholder">불러오는 중…</div>';
+    openModal('notice-detail-modal-overlay');
+
+    window.fetchWithAuth(SHEET_API_URL + '?action=noticeDetail&pageId=' + encodeURIComponent(pageId)).then(data => {
       if (data.error) {
-        console.warn('TPHR Inside data load error:', data.message);
-        // 토큰이 만료/무효화된 경우: 세션을 정리하고 다시 로그인할 수 있도록 로그인 화면을 띄움
-        // (구글 세션이 살아있다면 auto_select 덕분에 대부분 사용자가 보지 못하고 자동으로 재시도됨)
-        sessionStorage.removeItem('tphr_user');
-        sessionStorage.removeItem('tphr_id_token');
-        document.getElementById('login-gate').style.display = 'flex';
+        document.getElementById('notice-detail-body').innerHTML = '<div class="modal-placeholder">' + data.message + '</div>';
         return;
       }
-      latestData = data;
-      renderOrgSection(data);
-      renderNewHires(data);
-      renderDirectory(data);
-      renderNotices();
-      renderOrgChart(data.orgChart);
-    }).catch(err => {
-      console.warn('TPHR Inside fetch failed:', err);
+      document.getElementById('notice-detail-title').textContent = data.title;
+      const catBadges = (data.categories || []).map(c => '<span class="cat-badge">' + displayCatName(c) + '</span>').join('');
+      const pin = data.urgent ? '<span class="pin">고정</span>' : '';
+      document.getElementById('notice-detail-body').innerHTML =
+        '<div class="notice-detail-meta">' + pin + catBadges +
+          '<span>' + (data.author || '') + '</span>' +
+          '<span>' + formatNoticeDate(data.date) + '</span>' +
+        '</div>' +
+        '<div class="notice-content">' + (data.contentHtml || '<p>내용이 없어요.</p>') + '</div>';
+    }).catch(() => {
+      document.getElementById('notice-detail-body').innerHTML = '<div class="modal-placeholder">불러오지 못했어요.</div>';
     });
   }
+
+  document.getElementById('notice-list').addEventListener('click', (e) => {
+    const row = e.target.closest('.notice-row');
+    if (row && row.dataset.pageId) openNoticeDetail(row.dataset.pageId);
+  });
+
+  // 검색 — value를 건드리지 않고 읽기만 하므로 한글 조합 중에도 안전함
+  document.getElementById('notice-search-input').addEventListener('input', (e) => {
+    currentSearchQuery = e.target.value;
+    renderNotices();
+  });
 
   document.querySelectorAll('.cat-tab').forEach(tab => {
     tab.addEventListener('click', () => {
@@ -736,6 +901,28 @@
       renderNotices();
     });
   });
+
+  function loadDashboardData() {
+    return window.fetchWithAuth(SHEET_API_URL).then(data => {
+      if (data.error) {
+        console.warn('TPHR Inside data load error:', data.message);
+        // 토큰이 만료/무효화된 경우: 세션을 정리하고 다시 로그인할 수 있도록 로그인 화면을 띄움
+        sessionStorage.removeItem('tphr_user');
+        sessionStorage.removeItem('tphr_id_token');
+        document.getElementById('login-gate').style.display = 'flex';
+        return;
+      }
+      latestData = data;
+      applyAdminUi(data);
+      renderOrgSection(data);
+      renderNewHires(data);
+      renderDirectory(data);
+      renderNotices();
+      renderOrgChart(data.orgChart);
+    }).catch(err => {
+      console.warn('TPHR Inside fetch failed:', err);
+    });
+  }
 
   function openModal(id) { document.getElementById(id).classList.add('open'); }
   function closeModal(id) { document.getElementById(id).classList.remove('open'); }
@@ -774,6 +961,9 @@
   document.getElementById('org-quick-modal-close').addEventListener('click', () => closeModal('org-quick-modal-overlay'));
   document.getElementById('org-quick-modal-overlay').addEventListener('click', (e) => { if (e.target.id === 'org-quick-modal-overlay') closeModal('org-quick-modal-overlay'); });
 
+  document.getElementById('notice-detail-modal-close').addEventListener('click', () => closeModal('notice-detail-modal-overlay'));
+  document.getElementById('notice-detail-modal-overlay').addEventListener('click', (e) => { if (e.target.id === 'notice-detail-modal-overlay') closeModal('notice-detail-modal-overlay'); });
+
   const userChipBtn = document.getElementById('user-chip-btn');
   const userDropdown = document.getElementById('user-dropdown');
   userChipBtn.addEventListener('click', (e) => {
@@ -787,10 +977,133 @@
   });
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') { closeModal('org-quick-modal-overlay'); userDropdown.classList.remove('open'); }
+    if (e.key === 'Escape') {
+      closeModal('org-quick-modal-overlay');
+      closeModal('notice-detail-modal-overlay');
+      closeModal('admin-notice-form-overlay');
+      userDropdown.classList.remove('open');
+    }
   });
 
   setTodayDate();
+
+  // ===================== 관리자(admin) =====================
+
+  document.getElementById('admin-btn').addEventListener('click', () => {
+    showView('view-admin');
+    renderAdminNoticeList();
+  });
+
+  function renderAdminNoticeList() {
+    const listEl = document.getElementById('admin-notice-list');
+    const all = (latestData && latestData.notices) || [];
+    if (all.length === 0) {
+      listEl.innerHTML = '<div class="modal-placeholder">등록된 공지사항이 없어요.</div>';
+      return;
+    }
+    listEl.innerHTML = all.map(n =>
+      '<div class="admin-notice-row">' +
+        '<div class="title">' + n.title + '</div>' +
+        '<div class="admin-notice-actions">' +
+          '<button class="admin-icon-btn" data-edit="' + n.id + '">수정</button>' +
+          '<button class="admin-icon-btn danger" data-delete="' + n.id + '">삭제</button>' +
+        '</div>' +
+      '</div>'
+    ).join('');
+  }
+
+  document.getElementById('admin-notice-list').addEventListener('click', (e) => {
+    const editId = e.target.dataset.edit;
+    const deleteId = e.target.dataset.delete;
+    if (editId) openAdminNoticeForm(editId);
+    if (deleteId) handleDeleteNotice(deleteId);
+  });
+
+  document.getElementById('admin-notice-add-btn').addEventListener('click', () => openAdminNoticeForm(null));
+
+  function openAdminNoticeForm(noticeId) {
+    editingNoticeId = noticeId;
+    const form = document.getElementById('admin-notice-form');
+    form.reset();
+    document.querySelectorAll('.admin-checkbox-group input').forEach(cb => cb.checked = false);
+
+    if (noticeId) {
+      document.getElementById('admin-notice-form-title').textContent = '공지사항 수정';
+      const n = ((latestData && latestData.notices) || []).find(x => x.id === noticeId);
+      if (n) {
+        document.getElementById('af-title').value = n.title || '';
+        document.getElementById('af-date').value = n.date || '';
+        document.getElementById('af-urgent').checked = !!n.urgent;
+        document.getElementById('af-author').value = n.author || '';
+        document.getElementById('af-summary').value = n.summary || '';
+        (n.categories || []).forEach(c => {
+          const cb = document.querySelector('.admin-checkbox-group input[value="' + c + '"]');
+          if (cb) cb.checked = true;
+        });
+        document.getElementById('af-content').value = '불러오는 중…';
+        window.fetchWithAuth(SHEET_API_URL + '?action=noticeDetail&pageId=' + encodeURIComponent(noticeId)).then(detail => {
+          document.getElementById('af-content').value = detail.plainContent || '';
+        });
+      }
+    } else {
+      document.getElementById('admin-notice-form-title').textContent = '새 공지사항';
+    }
+
+    openModal('admin-notice-form-overlay');
+  }
+
+  document.getElementById('admin-notice-form-cancel').addEventListener('click', () => closeModal('admin-notice-form-overlay'));
+  document.getElementById('admin-notice-form-close').addEventListener('click', () => closeModal('admin-notice-form-overlay'));
+  document.getElementById('admin-notice-form-overlay').addEventListener('click', (e) => { if (e.target.id === 'admin-notice-form-overlay') closeModal('admin-notice-form-overlay'); });
+
+  document.getElementById('admin-notice-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const categories = Array.from(document.querySelectorAll('.admin-checkbox-group input:checked')).map(cb => cb.value);
+    const payload = {
+      id: editingNoticeId || undefined,
+      title: document.getElementById('af-title').value.trim(),
+      date: document.getElementById('af-date').value,
+      urgent: document.getElementById('af-urgent').checked,
+      author: document.getElementById('af-author').value.trim(),
+      summary: document.getElementById('af-summary').value.trim(),
+      content: document.getElementById('af-content').value,
+      categories: categories
+    };
+
+    const action = editingNoticeId ? 'updateNotice' : 'createNotice';
+    const submitBtn = e.target.querySelector('button[type=submit]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = '저장 중…';
+
+    postToBackend(action, payload).then(res => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = '저장';
+      if (res.error) { alert(res.message); return; }
+      closeModal('admin-notice-form-overlay');
+      loadDashboardData().then(() => renderAdminNoticeList());
+    }).catch(() => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = '저장';
+      alert('저장 중 오류가 발생했어요.');
+    });
+  });
+
+  function handleDeleteNotice(id) {
+    if (!confirm('이 공지사항을 삭제할까요? 노션에서도 함께 보관(삭제) 처리돼요.')) return;
+    postToBackend('deleteNotice', { id: id }).then(res => {
+      if (res.error) { alert(res.message); return; }
+      loadDashboardData().then(() => renderAdminNoticeList());
+    });
+  }
+
+  function postToBackend(action, payload) {
+    const token = sessionStorage.getItem('tphr_id_token');
+    return fetch(SHEET_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ idToken: token, action: action, payload: payload })
+    }).then(res => res.json());
+  }
 </script>
 </body>
 </html>
